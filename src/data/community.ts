@@ -56,6 +56,7 @@ export const communityInfo = {
   name: 'Win Streak Party',
   shortName: 'WSP',
   domain: 'winstreakparty.my.id',
+  slogan: 'Permabaran yang mantap',
   tagline: 'Komunitas Mobile Legends untuk mabar 5-stack rutin, push rank solid, internal scrim, dan nobar MPL bareng.',
   heroHeading: 'Main bareng serius, menang bareng tanpa drama.',
   heroLead:

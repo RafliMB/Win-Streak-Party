@@ -1,6 +1,7 @@
 ---
 import { activeRoles, pillars } from '../data/community';
 import Picture from './Picture.astro';
+import RoleIcon from './RoleIcon.astro';
 ---
 
 <section class="about" id="tentang" aria-labelledby="about-title">
@@ -39,7 +40,12 @@ import Picture from './Picture.astro';
         <h3 class="divisions-title">Lima role utama di setiap party</h3>
         <ul class="divisions-list">
           {activeRoles.map((role) => (
-            <li class="division-chip">{role}</li>
+            <li class="division-chip">
+              <span class="division-icon">
+                <RoleIcon role={role} size={18} />
+              </span>
+              <span>{role}</span>
+            </li>
           ))}
         </ul>
       </div>
@@ -144,13 +150,23 @@ import Picture from './Picture.astro';
   }
 
   .division-chip {
-    padding: 0.45rem 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.5rem 1rem 0.5rem 0.8rem;
     border-radius: var(--radius-pill);
     background-color: var(--color-surface);
     border: 1px solid var(--color-border-strong);
     font-size: var(--text-sm);
     font-weight: 600;
     color: var(--color-heading);
+  }
+
+  .division-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-accent);
   }
 
   @media (max-width: 900px) {

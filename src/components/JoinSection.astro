@@ -1,5 +1,6 @@
 ---
 import { communityInfo, formPlaystyles, formRoles, formTiers } from '../data/community';
+import RoleIcon from './RoleIcon.astro';
 ---
 
 <section
@@ -8,6 +9,7 @@ import { communityInfo, formPlaystyles, formRoles, formTiers } from '../data/com
   aria-labelledby="join-title"
   data-wa-phone={communityInfo.channels.whatsappAdminPhone}
   data-site-domain={communityInfo.domain}
+  data-slogan={communityInfo.slogan}
 >
   <p class="sr-only" aria-live="polite" id="join-live-status"></p>
 
@@ -136,6 +138,9 @@ import { communityInfo, formPlaystyles, formRoles, formTiers } from '../data/com
                   value={role}
                   checked={idx === 0}
                 />
+                <span class="check-role-icon">
+                  <RoleIcon role={role} size={16} />
+                </span>
                 <span>{role}</span>
               </label>
             ))}
@@ -460,10 +465,22 @@ import { communityInfo, formPlaystyles, formRoles, formTiers } from '../data/com
     margin: 0;
   }
 
+  .check-role-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-ink-muted);
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+
   .game-check:has(input:checked) {
     background-color: var(--color-surface-tint);
     border-color: var(--color-accent);
     color: var(--color-heading);
+  }
+
+  .game-check:has(input:checked) .check-role-icon {
+    color: var(--color-accent);
   }
 
   .field-error {
@@ -630,6 +647,7 @@ import { communityInfo, formPlaystyles, formRoles, formTiers } from '../data/com
   const joinSection = document.getElementById('gabung');
   const waAdminPhone = joinSection?.dataset.waPhone || '6281200000000';
   const siteDomain = joinSection?.dataset.siteDomain || 'winstreakparty.my.id';
+  const siteSlogan = joinSection?.dataset.slogan || 'Permabaran yang mantap';
 
   const form = document.getElementById('member-form') as HTMLFormElement | null;
   const successBox = document.getElementById('form-success') as HTMLElement | null;
@@ -810,7 +828,7 @@ import { communityInfo, formPlaystyles, formRoles, formTiers } from '../data/com
     ctx.fillText(siteDomain, 76, H - 56);
     ctx.fillStyle = colGold;
     ctx.textAlign = 'right';
-    ctx.fillText('Main bareng serius, menang bareng tanpa drama.', W - 76, H - 56);
+    ctx.fillText(siteSlogan, W - 76, H - 56);
     ctx.textAlign = 'left';
   };
 

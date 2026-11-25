@@ -1,0 +1,69 @@
+---
+interface Props {
+  role: string;
+  size?: number;
+}
+
+const { role, size = 18 } = Astro.props;
+
+const ROLE_ICON_MAP: Record<string, string> = {
+  'EXP Laner': '/images/roles/exp.png',
+  'Gold Laner': '/images/roles/gold.png',
+  'Mid Laner': '/images/roles/mid.png',
+  'Jungler': '/images/roles/jungle.png',
+  'Roamer': '/images/roles/roam.png',
+};
+
+const maskUrl = ROLE_ICON_MAP[role];
+---
+
+{maskUrl ? (
+  <span
+    class="role-icon-mask"
+    aria-hidden="true"
+    style={`--icon-size: ${size}px; --icon-mask: url('${maskUrl}');`}
+  />
+) : (
+  <svg
+    class="role-icon-flex"
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <polygon points="12 2 15 9 22 12 15 15 12 22 9 15 2 12 9 9 12 2" />
+  </svg>
+)}
+
+<style>
+  .role-icon-mask {
+    display: inline-block;
+    flex-shrink: 0;
+    width: var(--icon-size);
+    height: var(--icon-size);
+    background-color: currentColor;
+    -webkit-mask-image: var(--icon-mask);
+    mask-image: var(--icon-mask);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+  }
+
+  .role-icon-flex {
+    flex-shrink: 0;
+  }
+
+  @media (forced-colors: active) {
+    .role-icon-mask {
+      background-color: CanvasText;
+    }
+  }
+</style>
