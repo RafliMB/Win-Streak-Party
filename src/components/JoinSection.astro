@@ -1,5 +1,5 @@
 ---
-import { communityInfo, formGames, formPlaystyles } from '../data/community';
+import { communityInfo, formPlaystyles, formRoles, formTiers } from '../data/community';
 ---
 
 <section class="join" id="gabung" aria-labelledby="join-title">
@@ -8,7 +8,7 @@ import { communityInfo, formGames, formPlaystyles } from '../data/community';
       <div class="join-intro">
         <h2 id="join-title" class="join-heading">Masuk lobi dan kenalan dengan skuad</h2>
         <p class="join-lead">
-          Kamu bisa langsung bergabung ke kanal Discord atau grup WhatsApp kami, atau isi formulir singkat di samping agar admin segera menyambut dan mengarahkan ke divisi game pilihanmu.
+          Kamu bisa langsung bergabung ke kanal Discord atau grup WhatsApp kami, atau isi formulir singkat di samping agar admin segera menyambut dan menyiapkan role lane pilihanmu.
         </p>
       </div>
 
@@ -22,7 +22,7 @@ import { communityInfo, formGames, formPlaystyles } from '../data/community';
             </span>
             <div>
               <h3 class="channel-title">Server Discord</h3>
-              <p class="channel-desc">Kanal voice mabar, antrean 5-stack, dan info scrim harian.</p>
+              <p class="channel-desc">Kanal voice push rank, antrean party 5-stack, dan info scrim harian.</p>
             </div>
           </div>
 
@@ -54,7 +54,7 @@ import { communityInfo, formGames, formPlaystyles } from '../data/community';
             </span>
             <div>
               <h3 class="channel-title">Grup WhatsApp</h3>
-              <p class="channel-desc">Pengumuman cepat jadwal turnamen, absen nobar, dan koordinasi kopdar.</p>
+              <p class="channel-desc">Pengumuman cepat jadwal mabar, pendaftaran turnamen, dan absen nobar MPL.</p>
             </div>
           </div>
 
@@ -83,18 +83,18 @@ import { communityInfo, formGames, formPlaystyles } from '../data/community';
     <div class="join-form-box">
       <h3 class="form-heading">Formulir pendaftaran member</h3>
       <p class="form-sub">
-        Isi data singkat agar admin bisa menyiapkan peran divisi dan mengundangmu ke sesi terdekat.
+        Isi data singkat agar admin bisa menyiapkan role lane dan mengundangmu ke sesi mabar terdekat.
       </p>
 
       <form class="member-form" id="member-form" novalidate>
         <div class="field-group">
-          <label for="member-name" class="field-label">Nama panggilan atau nickname in-game</label>
+          <label for="member-name" class="field-label">Nickname in-game atau ID Mobile Legends</label>
           <input
             id="member-name"
             name="nickname"
             type="text"
             class="field-input"
-            placeholder="Contoh: Bima / RakaWSP"
+            placeholder="Contoh: RakaWSP / 12345678 (1234)"
             autocomplete="nickname"
             required
             aria-describedby="err-name"
@@ -117,40 +117,51 @@ import { communityInfo, formGames, formPlaystyles } from '../data/community';
         </div>
 
         <fieldset class="field-group field-set">
-          <legend class="field-label">Game yang sering dimainkan</legend>
+          <legend class="field-label">Role utama di Mobile Legends</legend>
           <div class="game-checks">
-            {formGames.map((game, idx) => (
+            {formRoles.map((role, idx) => (
               <label class="game-check">
                 <input
                   type="checkbox"
-                  name="games"
-                  value={game}
+                  name="roles"
+                  value={role}
                   checked={idx === 0}
                 />
-                <span>{game}</span>
+                <span>{role}</span>
               </label>
             ))}
           </div>
-          <p class="field-error" id="err-games" role="alert" hidden></p>
+          <p class="field-error" id="err-roles" role="alert" hidden></p>
         </fieldset>
 
-        <div class="field-group">
-          <label for="member-style" class="field-label">Fokus kegiatan yang dicari</label>
-          <select id="member-style" name="playstyle" class="field-input field-select">
-            {formPlaystyles.map((style) => (
-              <option value={style}>{style}</option>
-            ))}
-          </select>
+        <div class="field-row-two">
+          <div class="field-group">
+            <label for="member-tier" class="field-label">Tier saat ini</label>
+            <select id="member-tier" name="tier" class="field-input field-select">
+              {formTiers.map((tier) => (
+                <option value={tier}>{tier}</option>
+              ))}
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label for="member-style" class="field-label">Fokus kegiatan yang dicari</label>
+            <select id="member-style" name="playstyle" class="field-input field-select">
+              {formPlaystyles.map((style) => (
+                <option value={style}>{style}</option>
+              ))}
+            </select>
+          </div>
         </div>
 
         <div class="field-group">
-          <label for="member-note" class="field-label">Role favorit atau catatan singkat (opsional)</label>
+          <label for="member-note" class="field-label">Hero andalan atau catatan singkat (opsional)</label>
           <textarea
             id="member-note"
             name="note"
             rows="3"
             class="field-input field-textarea"
-            placeholder="Misalnya: biasa main Roamer / Controller, aktif malam setelah jam 20.00 WIB."
+            placeholder="Misalnya: hero comfort Arlott & Chou, biasa aktif push rank malam setelah jam 20.00 WIB."
           ></textarea>
         </div>
 
@@ -319,6 +330,13 @@ import { communityInfo, formGames, formPlaystyles } from '../data/community';
   .field-group {
     display: grid;
     gap: 0.45rem;
+    min-width: 0;
+  }
+
+  .field-row-two {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 1rem;
   }
 
   .field-set {
@@ -480,6 +498,10 @@ import { communityInfo, formGames, formPlaystyles } from '../data/community';
   }
 
   @media (max-width: 540px) {
+    .field-row-two {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
     .channel-actions,
     .success-actions {
       display: grid;
@@ -540,14 +562,15 @@ import { communityInfo, formGames, formPlaystyles } from '../data/community';
       const data = new FormData(form);
       const nickname = String(data.get('nickname') || '').trim();
       const contact = String(data.get('contact') || '').trim();
-      const games = data.getAll('games').map((v) => String(v));
+      const roles = data.getAll('roles').map((v) => String(v));
+      const tier = String(data.get('tier') || '');
       const playstyle = String(data.get('playstyle') || '');
       const note = String(data.get('note') || '').trim();
 
       let valid = true;
 
       if (nickname.length < 2) {
-        setFieldError('member-name', 'err-name', 'Isi nama panggilan atau nickname minimal 2 karakter.');
+        setFieldError('member-name', 'err-name', 'Isi nickname atau ID Mobile Legends minimal 2 karakter.');
         valid = false;
       } else {
         setFieldError('member-name', 'err-name', '');
@@ -560,16 +583,16 @@ import { communityInfo, formGames, formPlaystyles } from '../data/community';
         setFieldError('member-contact', 'err-contact', '');
       }
 
-      const errGames = document.getElementById('err-games');
-      if (games.length === 0) {
-        if (errGames) {
-          errGames.textContent = 'Pilih setidaknya satu game yang sering kamu mainkan.';
-          errGames.hidden = false;
+      const errRoles = document.getElementById('err-roles');
+      if (roles.length === 0) {
+        if (errRoles) {
+          errRoles.textContent = 'Pilih setidaknya satu role utama yang sering kamu mainkan.';
+          errRoles.hidden = false;
         }
         valid = false;
-      } else if (errGames) {
-        errGames.textContent = '';
-        errGames.hidden = true;
+      } else if (errRoles) {
+        errRoles.textContent = '';
+        errRoles.hidden = true;
       }
 
       if (!valid) {
@@ -579,12 +602,13 @@ import { communityInfo, formGames, formPlaystyles } from '../data/community';
       }
 
       latestSummary = [
-        'Halo admin Win Streak Party, saya ingin gabung komunitas:',
-        `Nama / Nickname: ${nickname}`,
+        'Halo admin Win Streak Party, saya ingin gabung komunitas Mobile Legends:',
+        `Nickname / ID MLBB: ${nickname}`,
         `Kontak: ${contact}`,
-        `Game utama: ${games.join(', ')}`,
+        `Role utama: ${roles.join(', ')}`,
+        `Tier saat ini: ${tier}`,
         `Fokus kegiatan: ${playstyle}`,
-        note ? `Catatan: ${note}` : null,
+        note ? `Catatan / Hero andalan: ${note}` : null,
       ]
         .filter(Boolean)
         .join('\n');

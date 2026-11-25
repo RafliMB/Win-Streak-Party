@@ -1,5 +1,5 @@
 ---
-import { activeDivisions, pillars } from '../data/community';
+import { activeRoles, pillars } from '../data/community';
 ---
 
 <section class="about" id="tentang" aria-labelledby="about-title">
@@ -9,15 +9,15 @@ import { activeDivisions, pillars } from '../data/community';
         Rumah bagi pemain yang menghargai permainan rapi
       </h2>
       <p class="about-intro">
-        Win Streak Party lahir dari obrolan sederhana: betapa jauh lebih serunya push rank ketika lima
-        orang di satu voice saling mendengar, bukan saling menyalahkan. Dari mabar malam mingguan,
-        kami tumbuh menjadi ruang temu pemain berbagai divisi game.
+        Win Streak Party lahir dari obrolan sederhana: betapa jauh lebih serunya push rank Mobile Legends
+        ketika lima orang di satu voice saling mendengar, bukan saling menyalahkan. Dari mabar malam
+        mingguan, kami tumbuh menjadi ruang temu pemain lintas tier dan role.
       </p>
 
       <div class="about-photo">
         <img
           src="/images/activities/activity-scrim.jpg"
-          alt="Empat anggota Win Streak Party berdiskusi strategi draft menggunakan tablet dan ponsel di meja kafe"
+          alt="Empat anggota Win Streak Party berdiskusi strategi draft pick Mobile Legends di meja kafe"
           width="1200"
           height="896"
           decoding="async"
@@ -36,10 +36,10 @@ import { activeDivisions, pillars } from '../data/community';
       </ul>
 
       <div class="divisions-block">
-        <h3 class="divisions-title">Divisi game aktif saat ini</h3>
+        <h3 class="divisions-title">Lima role utama di setiap party</h3>
         <ul class="divisions-list">
-          {activeDivisions.map((game) => (
-            <li class="division-chip">{game}</li>
+          {activeRoles.map((role) => (
+            <li class="division-chip">{role}</li>
           ))}
         </ul>
       </div>
