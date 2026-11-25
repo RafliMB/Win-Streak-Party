@@ -1,0 +1,36 @@
+---
+import '@fontsource-variable/bricolage-grotesque';
+import '@fontsource-variable/plus-jakarta-sans';
+import '../styles/tokens.css';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Win Streak Party — Komunitas Gaming & Esports',
+  description = 'Profil resmi komunitas gaming dan esports Win Streak Party. Mabar rutin, push rank solid tanpa toxic, internal scrim, fun tournament, dan nobar bareng.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#1B1464" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="/images/activities/hero-mabar.jpg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+  </head>
+  <body>
+    <a class="skip-link" href="#konten-utama">Loncat ke konten utama</a>
+    <slot />
+  </body>
+</html>

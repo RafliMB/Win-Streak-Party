@@ -1,0 +1,310 @@
+---
+import { weeklySchedule } from '../data/community';
+---
+
+<section class="schedule" id="jadwal" aria-labelledby="schedule-title">
+  <div class="wrap schedule-shell">
+    <div class="schedule-head">
+      <div class="schedule-heading-wrap">
+        <h2 id="schedule-title" class="schedule-heading">Jadwal rutin mingguan</h2>
+        <p class="schedule-sub">
+          Pilih sesi yang cocok dengan jam kosongmu. Lobi dibuka lima belas menit sebelum jadwal dimulai.
+        </p>
+      </div>
+
+      <div class="schedule-filters" role="group" aria-label="Saring jadwal berdasarkan mode">
+        <button type="button" class="filter-btn is-active" data-schedule-filter="all" aria-pressed="true">
+          Semua sesi
+        </button>
+        <button type="button" class="filter-btn" data-schedule-filter="online" aria-pressed="false">
+          Online
+        </button>
+        <button type="button" class="filter-btn" data-schedule-filter="offline" aria-pressed="false">
+          Offline & kopdar
+        </button>
+      </div>
+    </div>
+
+    <div class="schedule-ledger" role="list">
+      {weeklySchedule.map((item) => (
+        <article class="schedule-row" role="listitem" data-schedule-mode={item.mode}>
+          <div class="col-time">
+            <span class="day-label">{item.day}</span>
+            <span class="time-value">{item.time}</span>
+          </div>
+
+          <div class="col-activity">
+            <h3 class="activity-name">{item.activity}</h3>
+            <p class="activity-notes">{item.notes}</p>
+          </div>
+
+          <div class="col-games">
+            <span class="col-label">Divisi</span>
+            <span class="games-value">{item.games}</span>
+          </div>
+
+          <div class="col-mode">
+            <span class={`mode-tag mode-${item.mode}`}>{item.modeLabel}</span>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <p class="schedule-footnote">
+      Jadwal di atas merupakan contoh kalender kegiatan komunitas yang bisa disesuaikan kapan saja pada berkas data situs.
+    </p>
+  </div>
+</section>
+
+<style>
+  .schedule {
+    background-color: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    padding-block: var(--section-py);
+  }
+
+  .schedule-shell {
+    display: grid;
+    gap: 2.25rem;
+  }
+
+  .schedule-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem 2rem;
+  }
+
+  .schedule-heading-wrap {
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  .schedule-heading {
+    font-size: var(--text-h2);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.028em;
+    color: var(--color-indigo);
+  }
+
+  .schedule-sub {
+    color: var(--color-ink-muted);
+    max-width: 52ch;
+  }
+
+  .schedule-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .filter-btn {
+    min-height: 44px;
+    padding: 0.55rem 1.1rem;
+    border-radius: var(--radius-pill);
+    border: 1.5px solid var(--color-border-strong);
+    background-color: var(--color-surface);
+    color: var(--color-ink-muted);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      background-color var(--dur-fast) var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out),
+      transform var(--dur-fast) var(--ease-out);
+  }
+
+  .filter-btn:active {
+    transform: scale(0.97);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .filter-btn:hover:not(.is-active) {
+      border-color: var(--color-indigo);
+      color: var(--color-indigo);
+    }
+  }
+
+  .filter-btn.is-active {
+    background-color: var(--color-indigo);
+    border-color: var(--color-indigo);
+    color: var(--color-ink-on-dark);
+  }
+
+  .schedule-ledger {
+    border-top: 2px solid var(--color-indigo);
+    display: grid;
+  }
+
+  .schedule-row {
+    display: grid;
+    grid-template-columns: minmax(0, 210px) minmax(0, 1.45fr) minmax(0, 1fr) minmax(0, 190px);
+    gap: 1rem 1.75rem;
+    align-items: center;
+    padding: 1.5rem 0.85rem;
+    margin-inline: -0.85rem;
+    border-radius: var(--radius-sm);
+    border-bottom: 1px solid var(--color-border);
+    transition: background-color var(--dur-fast) var(--ease-out);
+  }
+
+  .schedule-row[hidden] {
+    display: none;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .schedule-row:hover {
+      background-color: var(--color-canvas);
+    }
+  }
+
+  .col-time {
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .day-label {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--color-indigo);
+    line-height: 1.15;
+  }
+
+  .time-value {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-ink-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .col-activity {
+    display: grid;
+    gap: 0.3rem;
+    min-width: 0;
+  }
+
+  .activity-name {
+    font-size: var(--text-h3);
+    font-weight: 700;
+    color: var(--color-ink);
+    line-height: 1.22;
+    letter-spacing: -0.02em;
+  }
+
+  .activity-notes {
+    font-size: var(--text-sm);
+    color: var(--color-ink-muted);
+  }
+
+  .col-games {
+    display: grid;
+    gap: 0.2rem;
+    min-width: 0;
+  }
+
+  .col-label {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--color-ink-subtle);
+  }
+
+  .games-value {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+
+  .col-mode {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .mode-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.42rem 0.9rem;
+    border-radius: var(--radius-pill);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .mode-online {
+    background-color: var(--color-surface-tint);
+    color: var(--color-indigo);
+  }
+
+  .mode-offline {
+    background-color: var(--color-gold-pale);
+    color: var(--color-indigo-deep);
+  }
+
+  .schedule-footnote {
+    font-size: var(--text-sm);
+    color: var(--color-ink-subtle);
+  }
+
+  @media (max-width: 960px) {
+    .schedule-row {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 0.9rem 1.25rem;
+      align-items: start;
+    }
+
+    .col-activity {
+      grid-column: 1 / -1;
+      order: 2;
+    }
+
+    .col-time {
+      order: 1;
+    }
+
+    .col-mode {
+      order: 1;
+      justify-content: flex-end;
+    }
+
+    .col-games {
+      grid-column: 1 / -1;
+      order: 3;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .schedule-row {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .col-mode {
+      justify-content: flex-start;
+      order: 4;
+    }
+  }
+</style>
+
+<script>
+  const filterBtns = document.querySelectorAll<HTMLButtonElement>('[data-schedule-filter]');
+  const rows = document.querySelectorAll<HTMLElement>('[data-schedule-mode]');
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const selected = btn.dataset.scheduleFilter || 'all';
+      filterBtns.forEach((b) => {
+        const active = b === btn;
+        b.classList.toggle('is-active', active);
+        b.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+
+      rows.forEach((row) => {
+        const mode = row.dataset.scheduleMode;
+        row.hidden = selected !== 'all' && mode !== selected;
+      });
+    });
+  });
+</script>

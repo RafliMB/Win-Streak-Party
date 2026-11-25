@@ -1,0 +1,619 @@
+---
+import { communityInfo, formGames, formPlaystyles } from '../data/community';
+---
+
+<section class="join" id="gabung" aria-labelledby="join-title">
+  <div class="wrap join-grid">
+    <div class="join-channels">
+      <div class="join-intro">
+        <h2 id="join-title" class="join-heading">Masuk lobi dan kenalan dengan skuad</h2>
+        <p class="join-lead">
+          Kamu bisa langsung bergabung ke kanal Discord atau grup WhatsApp kami, atau isi formulir singkat di samping agar admin segera menyambut dan mengarahkan ke divisi game pilihanmu.
+        </p>
+      </div>
+
+      <div class="channel-stack">
+        <div class="channel-item channel-discord band-dark">
+          <div class="channel-top">
+            <span class="channel-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" />
+              </svg>
+            </span>
+            <div>
+              <h3 class="channel-title">Server Discord</h3>
+              <p class="channel-desc">Kanal voice mabar, antrean 5-stack, dan info scrim harian.</p>
+            </div>
+          </div>
+
+          <div class="channel-actions">
+            <a
+              class="btn btn-gold"
+              href={communityInfo.channels.discordUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Masuk Discord
+            </a>
+            <button
+              type="button"
+              class="btn btn-secondary-dark"
+              data-copy-text={communityInfo.channels.discordDisplay}
+            >
+              Salin tautan
+            </button>
+          </div>
+        </div>
+
+        <div class="channel-item channel-surface">
+          <div class="channel-top">
+            <span class="channel-icon channel-icon-light" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+              </svg>
+            </span>
+            <div>
+              <h3 class="channel-title">Grup WhatsApp</h3>
+              <p class="channel-desc">Pengumuman cepat jadwal turnamen, absen nobar, dan koordinasi kopdar.</p>
+            </div>
+          </div>
+
+          <div class="channel-actions">
+            <a
+              class="btn btn-primary"
+              href={communityInfo.channels.whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Gabung WhatsApp
+            </a>
+            <a
+              class="btn btn-secondary"
+              href={communityInfo.channels.instagramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Instagram {communityInfo.channels.instagramDisplay}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="join-form-box">
+      <h3 class="form-heading">Formulir pendaftaran member</h3>
+      <p class="form-sub">
+        Isi data singkat agar admin bisa menyiapkan peran divisi dan mengundangmu ke sesi terdekat.
+      </p>
+
+      <form class="member-form" id="member-form" novalidate>
+        <div class="field-group">
+          <label for="member-name" class="field-label">Nama panggilan atau nickname in-game</label>
+          <input
+            id="member-name"
+            name="nickname"
+            type="text"
+            class="field-input"
+            placeholder="Contoh: Bima / RakaWSP"
+            autocomplete="nickname"
+            required
+            aria-describedby="err-name"
+          />
+          <p class="field-error" id="err-name" role="alert" hidden></p>
+        </div>
+
+        <div class="field-group">
+          <label for="member-contact" class="field-label">Nomor WhatsApp atau username Discord</label>
+          <input
+            id="member-contact"
+            name="contact"
+            type="text"
+            class="field-input"
+            placeholder="Contoh: @raka.gg atau 08xx-xxxx-xxxx"
+            required
+            aria-describedby="err-contact"
+          />
+          <p class="field-error" id="err-contact" role="alert" hidden></p>
+        </div>
+
+        <fieldset class="field-group field-set">
+          <legend class="field-label">Game yang sering dimainkan</legend>
+          <div class="game-checks">
+            {formGames.map((game, idx) => (
+              <label class="game-check">
+                <input
+                  type="checkbox"
+                  name="games"
+                  value={game}
+                  checked={idx === 0}
+                />
+                <span>{game}</span>
+              </label>
+            ))}
+          </div>
+          <p class="field-error" id="err-games" role="alert" hidden></p>
+        </fieldset>
+
+        <div class="field-group">
+          <label for="member-style" class="field-label">Fokus kegiatan yang dicari</label>
+          <select id="member-style" name="playstyle" class="field-input field-select">
+            {formPlaystyles.map((style) => (
+              <option value={style}>{style}</option>
+            ))}
+          </select>
+        </div>
+
+        <div class="field-group">
+          <label for="member-note" class="field-label">Role favorit atau catatan singkat (opsional)</label>
+          <textarea
+            id="member-note"
+            name="note"
+            rows="3"
+            class="field-input field-textarea"
+            placeholder="Misalnya: biasa main Roamer / Controller, aktif malam setelah jam 20.00 WIB."
+          ></textarea>
+        </div>
+
+        <div class="form-footer">
+          <button type="submit" class="btn btn-primary submit-btn" data-submit-btn>
+            Kirim pendaftaran
+          </button>
+          <p class="form-hint">
+            Formulir ini menyiapkan ringkasan biodata untuk langsung dikirim ke admin Discord atau WhatsApp.
+          </p>
+        </div>
+      </form>
+
+      <div class="form-success" id="form-success" hidden tabindex="-1">
+        <h4 class="success-title">Biodata pendaftaran siap dikirim</h4>
+        <p class="success-desc">
+          Salin ringkasan di bawah ini lalu kirim ke admin di grup WhatsApp atau kanal perkenalan Discord Win Streak Party.
+        </p>
+        <pre class="summary-preview" id="summary-preview"></pre>
+        <div class="success-actions">
+          <button type="button" class="btn btn-primary" id="copy-summary-btn">
+            Salin biodata
+          </button>
+          <button type="button" class="btn btn-secondary" id="reset-form-btn">
+            Isi ulang formulir
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .join {
+    padding-block: var(--section-py);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .join-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5.4fr) minmax(0, 6.6fr);
+    gap: clamp(2rem, 4.5vw, 4.25rem);
+    align-items: start;
+  }
+
+  .join-channels {
+    display: grid;
+    gap: 1.75rem;
+    min-width: 0;
+  }
+
+  .join-intro {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .join-heading {
+    font-size: var(--text-h2);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.028em;
+    color: var(--color-indigo);
+  }
+
+  .join-lead {
+    color: var(--color-ink-muted);
+  }
+
+  .channel-stack {
+    display: grid;
+    gap: 1.15rem;
+  }
+
+  .channel-item {
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    display: grid;
+    gap: 1.35rem;
+  }
+
+  .channel-discord {
+    background-color: var(--color-indigo);
+    color: var(--color-ink-on-dark);
+  }
+
+  .channel-surface {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border-strong);
+  }
+
+  .channel-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .channel-icon {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-gold);
+    color: var(--color-indigo-deep);
+  }
+
+  .channel-icon-light {
+    background-color: var(--color-surface-tint);
+    color: var(--color-indigo);
+  }
+
+  .channel-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: inherit;
+    margin-bottom: 0.3rem;
+  }
+
+  .channel-discord .channel-desc {
+    color: var(--color-ink-on-dark-muted);
+    font-size: var(--text-sm);
+  }
+
+  .channel-surface .channel-desc {
+    color: var(--color-ink-muted);
+    font-size: var(--text-sm);
+  }
+
+  .channel-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+  }
+
+  /* Form Box */
+  .join-form-box {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-lg);
+    padding: clamp(1.5rem, 3.2vw, 2.4rem);
+    box-shadow: var(--shadow-soft);
+    min-width: 0;
+  }
+
+  .form-heading {
+    font-size: var(--text-h3);
+    font-weight: 800;
+    color: var(--color-indigo);
+    margin-bottom: 0.45rem;
+  }
+
+  .form-sub {
+    font-size: var(--text-sm);
+    color: var(--color-ink-muted);
+    margin-bottom: 1.65rem;
+  }
+
+  .member-form {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .field-group {
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .field-set {
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
+
+  .field-label {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--color-ink);
+  }
+
+  .field-input {
+    width: 100%;
+    min-height: 48px;
+    padding: 0.72rem 0.95rem;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--color-border-strong);
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-size: var(--text-base);
+    transition:
+      border-color var(--dur-fast) var(--ease-out),
+      background-color var(--dur-fast) var(--ease-out);
+  }
+
+  .field-input::placeholder {
+    color: var(--color-ink-subtle);
+  }
+
+  .field-input:focus {
+    background-color: var(--color-surface);
+    border-color: var(--color-indigo);
+  }
+
+  .field-input[aria-invalid='true'] {
+    border-color: var(--color-error);
+    background-color: var(--color-error-bg);
+  }
+
+  .field-textarea {
+    min-height: 96px;
+    resize: vertical;
+    line-height: 1.5;
+  }
+
+  .game-checks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    padding-top: 0.2rem;
+  }
+
+  .game-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.48rem;
+    min-height: 44px;
+    padding: 0.45rem 0.9rem;
+    border-radius: var(--radius-pill);
+    border: 1.5px solid var(--color-border-strong);
+    background-color: var(--color-canvas);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-ink);
+    cursor: pointer;
+    transition:
+      border-color var(--dur-fast) var(--ease-out),
+      background-color var(--dur-fast) var(--ease-out);
+  }
+
+  .game-check input {
+    accent-color: var(--color-indigo);
+    width: 16px;
+    height: 16px;
+    margin: 0;
+  }
+
+  .game-check:has(input:checked) {
+    background-color: var(--color-surface-tint);
+    border-color: var(--color-indigo);
+    color: var(--color-indigo);
+  }
+
+  .field-error {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--color-error);
+  }
+
+  .field-error[hidden] {
+    display: none;
+  }
+
+  .form-footer {
+    display: grid;
+    gap: 0.75rem;
+    padding-top: 0.35rem;
+  }
+
+  .submit-btn {
+    width: fit-content;
+  }
+
+  .form-hint {
+    font-size: var(--text-xs);
+    color: var(--color-ink-subtle);
+  }
+
+  .form-success {
+    display: grid;
+    gap: 1rem;
+    padding: 1.35rem;
+    border-radius: var(--radius-md);
+    background-color: var(--color-success-bg);
+    border: 1.5px solid var(--color-success-border);
+  }
+
+  .form-success[hidden] {
+    display: none;
+  }
+
+  .success-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--color-success);
+  }
+
+  .success-desc {
+    font-size: var(--text-sm);
+    color: var(--color-ink);
+  }
+
+  .summary-preview {
+    margin: 0;
+    padding: 1rem;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    white-space: pre-wrap;
+    color: var(--color-ink);
+  }
+
+  .success-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+  }
+
+  @media (max-width: 960px) {
+    .join-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 540px) {
+    .channel-actions,
+    .success-actions {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .channel-actions .btn,
+    .submit-btn,
+    .success-actions .btn {
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  // Salin tautan cepat di kanal Discord
+  document.querySelectorAll<HTMLButtonElement>('[data-copy-text]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const value = btn.dataset.copyText || '';
+      const original = btn.textContent || 'Salin tautan';
+      try {
+        await navigator.clipboard.writeText(value);
+        btn.textContent = 'Tersalin';
+      } catch {
+        btn.textContent = value;
+      }
+      window.setTimeout(() => {
+        btn.textContent = original;
+      }, 2200);
+    });
+  });
+
+  // Validasi dan ringkasan formulir member
+  const form = document.getElementById('member-form') as HTMLFormElement | null;
+  const successBox = document.getElementById('form-success') as HTMLElement | null;
+  const previewEl = document.getElementById('summary-preview') as HTMLElement | null;
+  const copySummaryBtn = document.getElementById('copy-summary-btn') as HTMLButtonElement | null;
+  const resetFormBtn = document.getElementById('reset-form-btn') as HTMLButtonElement | null;
+
+  const setFieldError = (inputId: string, errorId: string, message: string) => {
+    const input = document.getElementById(inputId);
+    const err = document.getElementById(errorId);
+    if (input) {
+      if (message) input.setAttribute('aria-invalid', 'true');
+      else input.removeAttribute('aria-invalid');
+    }
+    if (err) {
+      err.textContent = message;
+      err.hidden = !message;
+    }
+  };
+
+  if (form && successBox && previewEl) {
+    let latestSummary = '';
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const data = new FormData(form);
+      const nickname = String(data.get('nickname') || '').trim();
+      const contact = String(data.get('contact') || '').trim();
+      const games = data.getAll('games').map((v) => String(v));
+      const playstyle = String(data.get('playstyle') || '');
+      const note = String(data.get('note') || '').trim();
+
+      let valid = true;
+
+      if (nickname.length < 2) {
+        setFieldError('member-name', 'err-name', 'Isi nama panggilan atau nickname minimal 2 karakter.');
+        valid = false;
+      } else {
+        setFieldError('member-name', 'err-name', '');
+      }
+
+      if (contact.length < 3) {
+        setFieldError('member-contact', 'err-contact', 'Masukkan nomor WhatsApp atau username Discord yang bisa dihubungi.');
+        valid = false;
+      } else {
+        setFieldError('member-contact', 'err-contact', '');
+      }
+
+      const errGames = document.getElementById('err-games');
+      if (games.length === 0) {
+        if (errGames) {
+          errGames.textContent = 'Pilih setidaknya satu game yang sering kamu mainkan.';
+          errGames.hidden = false;
+        }
+        valid = false;
+      } else if (errGames) {
+        errGames.textContent = '';
+        errGames.hidden = true;
+      }
+
+      if (!valid) {
+        const firstInvalid = form.querySelector<HTMLElement>('[aria-invalid="true"]');
+        firstInvalid?.focus();
+        return;
+      }
+
+      latestSummary = [
+        'Halo admin Win Streak Party, saya ingin gabung komunitas:',
+        `Nama / Nickname: ${nickname}`,
+        `Kontak: ${contact}`,
+        `Game utama: ${games.join(', ')}`,
+        `Fokus kegiatan: ${playstyle}`,
+        note ? `Catatan: ${note}` : null,
+      ]
+        .filter(Boolean)
+        .join('\n');
+
+      previewEl.textContent = latestSummary;
+      form.hidden = true;
+      successBox.hidden = false;
+      successBox.focus();
+    });
+
+    copySummaryBtn?.addEventListener('click', async () => {
+      if (!latestSummary) return;
+      const original = copySummaryBtn.textContent || 'Salin biodata';
+      try {
+        await navigator.clipboard.writeText(latestSummary);
+        copySummaryBtn.textContent = 'Biodata tersalin';
+      } catch {
+        copySummaryBtn.textContent = 'Gagal menyalin otomatis';
+      }
+      window.setTimeout(() => {
+        copySummaryBtn.textContent = original;
+      }, 2200);
+    });
+
+    resetFormBtn?.addEventListener('click', () => {
+      form.reset();
+      form.hidden = false;
+      successBox.hidden = true;
+      document.getElementById('member-name')?.focus();
+    });
+  }
+</script>

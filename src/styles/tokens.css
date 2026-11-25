@@ -1,0 +1,81 @@
+/* Win Streak Party — Design Tokens */
+/* Palet utama ditarik langsung dari logo resmi: Indigo #1B1464, Gold #FBB03B, Chalk #F3F2EE */
+
+:root {
+  /* Warna permukaan & latar */
+  --color-canvas: #f3f2ee;
+  --color-surface: #ffffff;
+  --color-surface-muted: #e8e6df;
+  --color-surface-tint: #eae8f4;
+
+  /* Warna merek dari logo */
+  --color-indigo: #1b1464;
+  --color-indigo-deep: #110c45;
+  --color-indigo-soft: #2a227d;
+  --color-gold: #fbb03b;
+  --color-gold-hover: #e59b24;
+  --color-gold-pale: #fdf2dc;
+
+  /* Teks & kontras */
+  --color-ink: #151042;
+  --color-ink-muted: #484469;
+  --color-ink-subtle: #625e82;
+  --color-ink-on-dark: #f7f6f2;
+  --color-ink-on-dark-muted: #c6c3e2;
+
+  /* Garis & batas */
+  --color-border: rgba(21, 16, 66, 0.13);
+  --color-border-strong: rgba(21, 16, 66, 0.28);
+  --color-border-dark: rgba(247, 246, 242, 0.18);
+  --color-border-dark-strong: rgba(247, 246, 242, 0.34);
+
+  /* Header & overlay */
+  --color-header-bg: rgba(243, 242, 238, 0.92);
+  --color-scrim: rgba(17, 12, 69, 0.84);
+  --color-surface-dark-subtle: rgba(247, 246, 242, 0.08);
+  --color-surface-dark-hover: rgba(247, 246, 242, 0.14);
+
+  /* Status formulir */
+  --color-error: #b91c1c;
+  --color-error-bg: #fef2f2;
+  --color-error-border: #fca5a5;
+  --color-success: #166534;
+  --color-success-bg: #eefaf1;
+  --color-success-border: #86efac;
+
+  /* Tipografi */
+  --font-display: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', system-ui, -apple-system, sans-serif;
+  --font-body: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+
+  /* Skala ukuran huruf */
+  --text-xs: 0.8125rem;
+  --text-sm: 0.9375rem;
+  --text-base: 1.03125rem;
+  --text-lg: 1.1875rem;
+  --text-xl: 1.4375rem;
+  --text-h3: clamp(1.3125rem, 1.8vw, 1.625rem);
+  --text-h2: clamp(2rem, 3.4vw, 3rem);
+  --text-h1: clamp(2.5rem, 4.35vw, 3.85rem);
+
+  /* Spasi & wadah */
+  --container-max: 1240px;
+  --gutter: clamp(1.25rem, 3.5vw, 2.75rem);
+  --section-py: clamp(4.25rem, 8vw, 6.75rem);
+  --header-h: 76px;
+
+  /* Radius & elevasi */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+  --shadow-soft: 0 12px 30px -14px rgba(21, 16, 66, 0.16);
+  --shadow-lift: 0 18px 40px -14px rgba(21, 16, 66, 0.24);
+  --shadow-dark: 0 24px 48px -18px rgba(8, 5, 30, 0.55);
+
+  /* Kurva gerak */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --dur-fast: 150ms;
+  --dur-base: 220ms;
+  --dur-slow: 460ms;
+}

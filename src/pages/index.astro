@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import AboutSection from '../components/AboutSection.astro';
+import ActivitiesSection from '../components/ActivitiesSection.astro';
+import ScheduleSection from '../components/ScheduleSection.astro';
+import GallerySection from '../components/GallerySection.astro';
+import JoinSection from '../components/JoinSection.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout>
+  <Header />
+  <main id="konten-utama">
+    <Hero />
+    <AboutSection />
+    <ActivitiesSection />
+    <ScheduleSection />
+    <GallerySection />
+    <JoinSection />
+  </main>
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,278 @@
+---
+import { communityInfo } from '../data/community';
+
+const navLinks = [
+  { href: '#tentang', label: 'Tentang' },
+  { href: '#kegiatan', label: 'Kegiatan' },
+  { href: '#jadwal', label: 'Jadwal' },
+  { href: '#galeri', label: 'Galeri' },
+];
+---
+
+<header class="site-header" data-header>
+  <div class="wrap header-inner">
+    <a class="brand" href="#beranda" aria-label="Beranda Win Streak Party">
+      <img
+        class="brand-mark"
+        src="/images/brand/wsp-logo-mark.png"
+        alt=""
+        width="40"
+        height="33"
+      />
+      <span class="brand-name">{communityInfo.name}</span>
+    </a>
+
+    <nav class="nav-desktop" aria-label="Navigasi utama">
+      <ul class="nav-list">
+        {navLinks.map((item) => (
+          <li>
+            <a class="nav-link" href={item.href}>{item.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      <a class="btn btn-primary header-cta" href="#gabung">Gabung Komunitas</a>
+      <button
+        type="button"
+        class="menu-toggle"
+        aria-label="Buka menu navigasi"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+        data-menu-toggle
+      >
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <line class="line-top" x1="3" y1="7" x2="21" y2="7" />
+          <line class="line-mid" x1="3" y1="12" x2="21" y2="12" />
+          <line class="line-bot" x1="3" y1="17" x2="21" y2="17" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-drawer" id="mobile-nav" hidden data-mobile-drawer>
+    <div class="wrap drawer-inner">
+      <nav aria-label="Navigasi seluler">
+        <ul class="drawer-list">
+          {navLinks.map((item) => (
+            <li>
+              <a class="drawer-link" href={item.href} data-drawer-link>{item.label}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      <a class="btn btn-primary drawer-cta" href="#gabung" data-drawer-link>Gabung Komunitas</a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 90;
+    background-color: var(--color-header-bg);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .header-inner {
+    min-height: var(--header-h);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .brand-mark {
+    width: auto;
+    height: 32px;
+    object-fit: contain;
+  }
+
+  .brand-name {
+    font-family: var(--font-display);
+    font-size: 1.1875rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    color: var(--color-indigo);
+    line-height: 1;
+  }
+
+  .nav-desktop {
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-list {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0.5rem 0.9rem;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-ink-muted);
+    text-decoration: none;
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0.9rem;
+    right: 0.9rem;
+    bottom: 8px;
+    height: 2px;
+    background-color: var(--color-gold);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .nav-link:hover {
+      color: var(--color-indigo);
+    }
+
+    .nav-link:hover::after {
+      transform: scaleX(1);
+    }
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .header-cta {
+    min-height: 44px;
+    padding: 0.65rem 1.2rem;
+  }
+
+  .menu-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--color-border-strong);
+    background-color: var(--color-surface);
+    color: var(--color-indigo);
+    cursor: pointer;
+    transition:
+      background-color var(--dur-fast) var(--ease-out),
+      transform var(--dur-fast) var(--ease-out);
+  }
+
+  .menu-toggle:active {
+    transform: scale(0.96);
+  }
+
+  .mobile-drawer {
+    border-top: 1px solid var(--color-border);
+    background-color: var(--color-canvas);
+  }
+
+  .mobile-drawer[hidden] {
+    display: none;
+  }
+
+  .drawer-inner {
+    padding-block: 1.25rem 1.75rem;
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .drawer-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+  }
+
+  .drawer-link {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    padding-block: 0.5rem;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-indigo);
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .drawer-cta {
+    width: 100%;
+  }
+
+  @media (max-width: 860px) {
+    .nav-desktop,
+    .header-cta {
+      display: none;
+    }
+
+    .menu-toggle {
+      display: inline-flex;
+    }
+  }
+</style>
+
+<script>
+  const toggleBtn = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const drawer = document.querySelector<HTMLElement>('[data-mobile-drawer]');
+  const drawerLinks = document.querySelectorAll<HTMLAnchorElement>('[data-drawer-link]');
+
+  if (toggleBtn && drawer) {
+    const closeMenu = () => {
+      drawer.hidden = true;
+      toggleBtn.setAttribute('aria-expanded', 'false');
+      toggleBtn.setAttribute('aria-label', 'Buka menu navigasi');
+    };
+
+    const openMenu = () => {
+      drawer.hidden = false;
+      toggleBtn.setAttribute('aria-expanded', 'true');
+      toggleBtn.setAttribute('aria-label', 'Tutup menu navigasi');
+    };
+
+    toggleBtn.addEventListener('click', () => {
+      const isOpen = toggleBtn.getAttribute('aria-expanded') === 'true';
+      if (isOpen) closeMenu();
+      else openMenu();
+    });
+
+    drawerLinks.forEach((link) => {
+      link.addEventListener('click', closeMenu);
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !drawer.hidden) {
+        closeMenu();
+        toggleBtn.focus();
+      }
+    });
+  }
+</script>

@@ -1,0 +1,316 @@
+---
+import { galleryPhotos } from '../data/community';
+---
+
+<section class="gallery" id="galeri" aria-labelledby="gallery-title">
+  <div class="wrap gallery-shell">
+    <div class="gallery-head">
+      <h2 id="gallery-title" class="gallery-heading">Dokumentasi momen kegiatan</h2>
+      <p class="gallery-lead">
+        Cuplikan suasana mabar, diskusi draft, turnamen mini, dan kopdar komunitas. Seluruh foto di bawah merupakan aset placeholder yang siap diganti dengan arsip asli Win Streak Party.
+      </p>
+    </div>
+
+    <div class="gallery-grid">
+      {galleryPhotos.map((photo, index) => (
+        <button
+          type="button"
+          class={`gallery-tile span-${photo.span}`}
+          aria-label={`Perbesar foto: ${photo.label}`}
+          data-lightbox-trigger={index}
+          data-src={photo.src}
+          data-alt={photo.alt}
+          data-label={photo.label}
+        >
+          <img
+            src={photo.src}
+            alt={photo.alt}
+            width="1200"
+            height="900"
+            decoding="async"
+          />
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <dialog class="lightbox" id="gallery-lightbox" aria-label="Pratinjau foto kegiatan">
+    <div class="lightbox-frame">
+      <div class="lightbox-bar">
+        <span class="lightbox-title" data-lightbox-title>{galleryPhotos[0]?.label}</span>
+        <div class="lightbox-controls">
+          <button type="button" class="lightbox-btn" data-lightbox-prev aria-label="Foto sebelumnya">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+          </button>
+          <button type="button" class="lightbox-btn" data-lightbox-next aria-label="Foto berikutnya">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
+          <button type="button" class="lightbox-btn lightbox-close" data-lightbox-close aria-label="Tutup pratinjau">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="lightbox-img-wrap">
+        <img
+          src={galleryPhotos[0]?.src}
+          alt={galleryPhotos[0]?.alt}
+          data-lightbox-img
+        />
+      </div>
+    </div>
+  </dialog>
+</section>
+
+<style>
+  .gallery {
+    padding-block: var(--section-py);
+  }
+
+  .gallery-shell {
+    display: grid;
+    gap: 2.25rem;
+  }
+
+  .gallery-head {
+    display: grid;
+    grid-template-columns: minmax(0, 5.5fr) minmax(0, 6.5fr);
+    gap: 1.25rem 3rem;
+    align-items: end;
+  }
+
+  .gallery-heading {
+    font-size: var(--text-h2);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.028em;
+    color: var(--color-indigo);
+  }
+
+  .gallery-lead {
+    color: var(--color-ink-muted);
+    max-width: 54ch;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .gallery-tile {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background-color: var(--color-surface-muted);
+    cursor: pointer;
+    height: clamp(240px, 26vw, 350px);
+  }
+
+  .span-wide {
+    grid-column: span 7;
+  }
+
+  .span-narrow {
+    grid-column: span 5;
+  }
+
+  .span-half {
+    grid-column: span 6;
+  }
+
+  .gallery-tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--dur-slow) var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .gallery-tile:hover img {
+      transform: scale(1.03);
+    }
+  }
+
+  /* Lightbox Dialog */
+  .lightbox {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    max-width: min(960px, calc(100vw - 2rem));
+    width: 100%;
+    overflow: visible;
+  }
+
+  .lightbox::backdrop {
+    background-color: var(--color-scrim);
+    backdrop-filter: blur(6px);
+  }
+
+  .lightbox-frame {
+    background-color: var(--color-indigo-deep);
+    color: var(--color-ink-on-dark);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-dark);
+    border: 1px solid var(--color-border-dark);
+  }
+
+  .lightbox-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.9rem 1.15rem;
+    border-bottom: 1px solid var(--color-border-dark);
+  }
+
+  .lightbox-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--text-base);
+    color: var(--color-ink-on-dark);
+  }
+
+  .lightbox-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  .lightbox-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border-dark);
+    background-color: var(--color-surface-dark-subtle);
+    color: var(--color-ink-on-dark);
+    cursor: pointer;
+    transition:
+      background-color var(--dur-fast) var(--ease-out),
+      transform var(--dur-fast) var(--ease-out);
+  }
+
+  .lightbox-btn:active {
+    transform: scale(0.95);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .lightbox-btn:hover {
+      background-color: var(--color-surface-dark-hover);
+    }
+  }
+
+  .lightbox-close {
+    background-color: var(--color-gold);
+    border-color: var(--color-gold);
+    color: var(--color-indigo-deep);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .lightbox-close:hover {
+      background-color: var(--color-gold-hover);
+    }
+  }
+
+  .lightbox-img-wrap {
+    background-color: var(--color-indigo-deep);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lightbox-img-wrap img {
+    width: 100%;
+    max-height: 75dvh;
+    object-fit: contain;
+  }
+
+  @media (max-width: 860px) {
+    .gallery-head {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .span-wide,
+    .span-narrow,
+    .span-half {
+      grid-column: span 6;
+    }
+  }
+
+  @media (max-width: 580px) {
+    .gallery-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .span-wide,
+    .span-narrow,
+    .span-half {
+      grid-column: span 1;
+      height: 240px;
+    }
+  }
+</style>
+
+<script>
+  const triggers = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-lightbox-trigger]'));
+  const dialog = document.getElementById('gallery-lightbox') as HTMLDialogElement | null;
+  const imgEl = dialog?.querySelector<HTMLImageElement>('[data-lightbox-img]');
+  const titleEl = dialog?.querySelector<HTMLElement>('[data-lightbox-title]');
+  const prevBtn = dialog?.querySelector<HTMLButtonElement>('[data-lightbox-prev]');
+  const nextBtn = dialog?.querySelector<HTMLButtonElement>('[data-lightbox-next]');
+  const closeBtn = dialog?.querySelector<HTMLButtonElement>('[data-lightbox-close]');
+
+  let currentIndex = 0;
+
+  const showImage = (index: number) => {
+    const safeIndex = (index + triggers.length) % triggers.length;
+    currentIndex = safeIndex;
+    const item = triggers[safeIndex];
+    if (!item || !imgEl || !titleEl) return;
+    imgEl.src = item.dataset.src || '';
+    imgEl.alt = item.dataset.alt || '';
+    titleEl.textContent = item.dataset.label || '';
+  };
+
+  if (dialog && triggers.length > 0) {
+    triggers.forEach((btn, idx) => {
+      btn.addEventListener('click', () => {
+        showImage(idx);
+        dialog.showModal();
+      });
+    });
+
+    prevBtn?.addEventListener('click', () => showImage(currentIndex - 1));
+    nextBtn?.addEventListener('click', () => showImage(currentIndex + 1));
+    closeBtn?.addEventListener('click', () => dialog.close());
+
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+
+    dialog.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        showImage(currentIndex - 1);
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        showImage(currentIndex + 1);
+      }
+    });
+  }
+</script>

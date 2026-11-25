@@ -1,0 +1,168 @@
+---
+import { activeDivisions, pillars } from '../data/community';
+---
+
+<section class="about" id="tentang" aria-labelledby="about-title">
+  <div class="wrap about-grid">
+    <div class="about-left">
+      <h2 id="about-title" class="section-heading">
+        Rumah bagi pemain yang menghargai permainan rapi
+      </h2>
+      <p class="about-intro">
+        Win Streak Party lahir dari obrolan sederhana: betapa jauh lebih serunya push rank ketika lima
+        orang di satu voice saling mendengar, bukan saling menyalahkan. Dari mabar malam mingguan,
+        kami tumbuh menjadi ruang temu pemain berbagai divisi game.
+      </p>
+
+      <div class="about-photo">
+        <img
+          src="/images/activities/activity-scrim.jpg"
+          alt="Empat anggota Win Streak Party berdiskusi strategi draft menggunakan tablet dan ponsel di meja kafe"
+          width="1200"
+          height="896"
+          decoding="async"
+        />
+      </div>
+    </div>
+
+    <div class="about-right">
+      <ul class="pillar-list">
+        {pillars.map((pillar) => (
+          <li class="pillar-item">
+            <h3 class="pillar-title">{pillar.title}</h3>
+            <p class="pillar-body">{pillar.body}</p>
+          </li>
+        ))}
+      </ul>
+
+      <div class="divisions-block">
+        <h3 class="divisions-title">Divisi game aktif saat ini</h3>
+        <ul class="divisions-list">
+          {activeDivisions.map((game) => (
+            <li class="division-chip">{game}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    padding-block: var(--section-py);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+    gap: clamp(2.5rem, 5vw, 5rem);
+    align-items: start;
+  }
+
+  .about-left {
+    display: grid;
+    gap: 1.4rem;
+    min-width: 0;
+  }
+
+  .section-heading {
+    font-size: var(--text-h2);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.028em;
+    color: var(--color-indigo);
+  }
+
+  .about-intro {
+    font-size: var(--text-base);
+    color: var(--color-ink-muted);
+    max-width: 52ch;
+  }
+
+  .about-photo {
+    margin-top: 0.6rem;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface-muted);
+    aspect-ratio: 4 / 3;
+  }
+
+  .about-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .about-right {
+    display: grid;
+    gap: 2.5rem;
+    min-width: 0;
+    padding-top: 0.35rem;
+  }
+
+  .pillar-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    border-top: 1px solid var(--color-border-strong);
+  }
+
+  .pillar-item {
+    padding-block: 1.65rem;
+    border-bottom: 1px solid var(--color-border);
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .pillar-title {
+    font-size: var(--text-h3);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--color-indigo);
+    line-height: 1.2;
+  }
+
+  .pillar-body {
+    color: var(--color-ink-muted);
+    font-size: var(--text-base);
+  }
+
+  .divisions-block {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .divisions-title {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--color-indigo);
+  }
+
+  .divisions-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .division-chip {
+    padding: 0.45rem 0.95rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border-strong);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-indigo);
+  }
+
+  @media (max-width: 900px) {
+    .about-grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2.5rem;
+    }
+  }
+</style>
