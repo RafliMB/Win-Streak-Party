@@ -7,7 +7,6 @@ import RoleIcon from './RoleIcon.astro';
   class="join"
   id="gabung"
   aria-labelledby="join-title"
-  data-wa-phone={communityInfo.channels.whatsappAdminPhone}
   data-site-domain={communityInfo.domain}
   data-slogan={communityInfo.slogan}
 >
@@ -18,7 +17,7 @@ import RoleIcon from './RoleIcon.astro';
       <div class="join-intro">
         <h2 id="join-title" class="join-heading">Masuk lobi dan kenalan dengan skuad</h2>
         <p class="join-lead">
-          Kamu bisa langsung bergabung ke kanal Discord atau grup WhatsApp kami, atau isi formulir singkat di samping untuk membuat biodata plus kartu perkenalan member siap kirim ke admin.
+          Kamu bisa langsung bergabung ke server Discord atau grup WhatsApp kami, atau isi formulir singkat di samping agar biodatamu otomatis masuk ke channel Discord sekaligus membuat kartu member PNG.
         </p>
       </div>
 
@@ -93,10 +92,14 @@ import RoleIcon from './RoleIcon.astro';
     <div class="join-form-box">
       <h3 class="form-heading">Formulir pendaftaran member</h3>
       <p class="form-sub">
-        Isi data singkat untuk mengirim biodata ke WhatsApp admin sekaligus membuat kartu perkenalan member berlogo Win Streak Party.
+        Isi data singkat untuk mengirim biodata otomatis ke channel Discord Win Streak Party sekaligus membuat kartu perkenalan member.
       </p>
 
       <form class="member-form" id="member-form" novalidate>
+        <div class="hp-field" aria-hidden="true">
+          <label for="member-website">Situs web</label>
+          <input id="member-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
         <div class="field-group">
           <label for="member-name" class="field-label">Nickname in-game atau ID Mobile Legends</label>
           <input
@@ -174,26 +177,29 @@ import RoleIcon from './RoleIcon.astro';
             id="member-note"
             name="note"
             rows="3"
+            maxlength="300"
             class="field-input field-textarea"
             placeholder="Misalnya: hero comfort Arlott & Chou, biasa aktif push rank malam setelah jam 20.00 WIB."
           ></textarea>
         </div>
 
+        <p class="field-error form-alert" id="err-form" role="alert" hidden></p>
+
         <div class="form-footer">
           <button type="submit" class="btn btn-primary submit-btn" data-submit-btn>
-            Buat biodata dan kartu member
+            Kirim ke Discord &amp; buat kartu member
           </button>
           <p class="form-hint">
-            Langsung menghasilkan tombol kirim WhatsApp admin, teks perkenalan Discord, serta kartu member PNG siap unduh.
+            Biodata dikirim otomatis ke channel pendaftaran Discord komunitas sekaligus menghasilkan kartu member PNG siap unduh.
           </p>
         </div>
       </form>
 
       <div class="form-success" id="form-success" hidden tabindex="-1">
         <div class="success-head">
-          <h4 class="success-title">Biodata dan kartu member siap dibagikan</h4>
-          <p class="success-desc">
-            Kirim langsung biodatamu ke WhatsApp admin, salin untuk kanal perkenalan Discord, atau unduh kartu member untuk diunggah ke grup dan Instagram Story.
+          <h4 class="success-title" id="success-title">Biodata terkirim otomatis ke Discord</h4>
+          <p class="success-desc" id="success-desc">
+            Data pendaftaranmu sudah masuk ke channel Discord Win Streak Party. Unduh kartu member di bawah atau langsung gabung ke grup WhatsApp dan Discord.
           </p>
         </div>
 
@@ -216,12 +222,19 @@ import RoleIcon from './RoleIcon.astro';
             <div class="success-actions">
               <a
                 class="btn btn-primary"
-                id="send-wa-link"
                 href={communityInfo.channels.whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Kirim ke WhatsApp admin
+                Gabung Grup WhatsApp
+              </a>
+              <a
+                class="btn btn-secondary"
+                href={communityInfo.channels.discordUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Masuk Discord
               </a>
               <button type="button" class="btn btn-secondary" id="copy-summary-btn">
                 Salin biodata
@@ -483,10 +496,27 @@ import RoleIcon from './RoleIcon.astro';
     color: var(--color-accent);
   }
 
+  .hp-field {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
   .field-error {
     font-size: var(--text-xs);
     font-weight: 600;
     color: var(--color-error);
+  }
+
+  .form-alert {
+    padding: 0.75rem 0.95rem;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-error-bg);
+    border: 1px solid var(--color-error-border);
+    font-size: var(--text-sm);
   }
 
   .field-error[hidden] {
@@ -526,6 +556,10 @@ import RoleIcon from './RoleIcon.astro';
     font-size: 1.3rem;
     font-weight: 800;
     color: var(--color-success);
+  }
+
+  .success-title.is-warning {
+    color: var(--color-heading);
   }
 
   .success-desc {
@@ -645,14 +679,16 @@ import RoleIcon from './RoleIcon.astro';
   });
 
   const joinSection = document.getElementById('gabung');
-  const waAdminPhone = joinSection?.dataset.waPhone || '6281200000000';
   const siteDomain = joinSection?.dataset.siteDomain || 'winstreakparty.my.id';
   const siteSlogan = joinSection?.dataset.slogan || 'Permabaran yang mantap';
 
   const form = document.getElementById('member-form') as HTMLFormElement | null;
+  const submitBtn = form?.querySelector<HTMLButtonElement>('[data-submit-btn]') ?? null;
+  const errFormEl = document.getElementById('err-form') as HTMLElement | null;
   const successBox = document.getElementById('form-success') as HTMLElement | null;
+  const successTitleEl = document.getElementById('success-title') as HTMLElement | null;
+  const successDescEl = document.getElementById('success-desc') as HTMLElement | null;
   const previewEl = document.getElementById('summary-preview') as HTMLElement | null;
-  const sendWaLink = document.getElementById('send-wa-link') as HTMLAnchorElement | null;
   const copySummaryBtn = document.getElementById('copy-summary-btn') as HTMLButtonElement | null;
   const resetFormBtn = document.getElementById('reset-form-btn') as HTMLButtonElement | null;
   const downloadCardBtn = document.getElementById('download-card-btn') as HTMLButtonElement | null;
@@ -874,6 +910,13 @@ import RoleIcon from './RoleIcon.astro';
       const playstyle = String(data.get('playstyle') || '');
       const note = String(data.get('note') || '').trim();
 
+      const website = String(data.get('website') || '').trim();
+
+      if (errFormEl) {
+        errFormEl.textContent = '';
+        errFormEl.hidden = true;
+      }
+
       let valid = true;
 
       if (nickname.length < 2) {
@@ -907,9 +950,69 @@ import RoleIcon from './RoleIcon.astro';
         return;
       }
 
+      const defaultBtnLabel = submitBtn?.textContent?.trim() || 'Kirim ke Discord & buat kartu member';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Mengirim ke Discord...';
+      }
+
+      let discordSent = false;
+      let fallbackMessage = '';
+
+      try {
+        const response = await fetch('/api/join', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            nickname,
+            contact,
+            roles,
+            tier,
+            playstyle,
+            note,
+            website,
+          }),
+        });
+
+        const result = (await response.json().catch(() => ({}))) as {
+          ok?: boolean;
+          sent?: boolean;
+          code?: string;
+          error?: string;
+        };
+
+        if (response.status === 429 || response.status === 400) {
+          if (errFormEl) {
+            errFormEl.textContent = result.error || 'Pengiriman tidak dapat diproses. Periksa kembali data kamu.';
+            errFormEl.hidden = false;
+          }
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = defaultBtnLabel;
+          }
+          return;
+        }
+
+        if (response.ok && result.sent) {
+          discordSent = true;
+        } else {
+          fallbackMessage =
+            result.error ||
+            'Pengiriman otomatis ke Discord belum aktif. Kamu tetap bisa menyalin biodata di bawah untuk perkenalan manual.';
+        }
+      } catch {
+        fallbackMessage =
+          'Koneksi pengiriman otomatis ke Discord sedang terkendala. Kamu tetap bisa menyalin biodata di bawah untuk perkenalan manual.';
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = defaultBtnLabel;
+        }
+      }
+
       latestNickname = nickname.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'member';
       latestSummary = [
-        'Halo admin Win Streak Party, saya ingin gabung komunitas Mobile Legends:',
+        'Halo Win Streak Party, perkenalkan member baru Mobile Legends:',
         `Nickname / ID MLBB: ${nickname}`,
         `Kontak: ${contact}`,
         `Role utama: ${roles.join(', ')}`,
@@ -921,14 +1024,28 @@ import RoleIcon from './RoleIcon.astro';
         .join('\n');
 
       previewEl.textContent = latestSummary;
-      if (sendWaLink) {
-        sendWaLink.href = `https://wa.me/${waAdminPhone}?text=${encodeURIComponent(latestSummary)}`;
+
+      if (successTitleEl && successDescEl) {
+        if (discordSent) {
+          successTitleEl.textContent = 'Biodata terkirim otomatis ke Discord';
+          successTitleEl.classList.remove('is-warning');
+          successDescEl.textContent =
+            'Data pendaftaranmu sudah masuk ke channel Discord Win Streak Party. Unduh kartu member di bawah atau langsung gabung ke grup WhatsApp dan Discord.';
+        } else {
+          successTitleEl.textContent = 'Kartu member siap — kirim biodata manual';
+          successTitleEl.classList.add('is-warning');
+          successDescEl.textContent = fallbackMessage;
+        }
       }
 
       form.hidden = true;
       successBox.hidden = false;
       await renderMemberCard({ nickname, roles, tier, playstyle, note });
-      announce('Biodata dan kartu member berhasil dibuat.');
+      announce(
+        discordSent
+          ? 'Biodata terkirim ke Discord dan kartu member berhasil dibuat.'
+          : 'Kartu member berhasil dibuat. Salin biodata untuk dikirim manual.'
+      );
       successBox.focus();
     });
 

@@ -62,10 +62,10 @@ export const communityInfo = {
   heroLead:
     'Win Streak Party adalah rumah mabar Mobile Legends bagi pemain kasual hingga Mythical Immortal yang mencari party komunikasi aktif, scrim rapi, dan teman kopdar.',
   channels: {
-    // Ganti tautan & nomor WhatsApp admin placeholder berikut dengan data resmi komunitas Anda
+    // Ganti tautan Discord & nomor WhatsApp admin placeholder berikut dengan data resmi komunitas Anda
     discordUrl: 'https://discord.gg/winstreakparty',
     discordDisplay: 'discord.gg/winstreakparty',
-    whatsappUrl: 'https://chat.whatsapp.com/WinStreakPartyCommunity',
+    whatsappUrl: 'https://chat.whatsapp.com/BqTa9sYNuk06h5tEfM6LXf?s=cl&p=a&iam=2',
     whatsappDisplay: 'Grup WhatsApp Win Streak Party',
     // Format internasional tanpa tanda + atau spasi (contoh: 6281234567890)
     whatsappAdminPhone: '6281200000000',
