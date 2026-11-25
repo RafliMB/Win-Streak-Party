@@ -1,17 +1,19 @@
 ---
 import { communityInfo } from '../data/community';
 
+const currentPath = Astro.url.pathname;
+
 const navLinks = [
-  { href: '#tentang', label: 'Tentang' },
-  { href: '#kegiatan', label: 'Kegiatan' },
-  { href: '#jadwal', label: 'Jadwal' },
-  { href: '#galeri', label: 'Galeri' },
+  { href: '/#tentang', label: 'Tentang', active: false },
+  { href: '/#jadwal', label: 'Jadwal', active: false },
+  { href: '/turnamen', label: 'Turnamen', active: currentPath.startsWith('/turnamen') },
+  { href: '/kegiatan', label: 'Rekap', active: currentPath.startsWith('/kegiatan') },
 ];
 ---
 
 <header class="site-header" data-header>
   <div class="wrap header-inner">
-    <a class="brand" href="#beranda" aria-label="Beranda Win Streak Party">
+    <a class="brand" href="/" aria-label="Beranda Win Streak Party">
       <img
         class="brand-mark"
         src="/images/brand/wsp-logo-mark.png"
@@ -26,14 +28,20 @@ const navLinks = [
       <ul class="nav-list">
         {navLinks.map((item) => (
           <li>
-            <a class="nav-link" href={item.href}>{item.label}</a>
+            <a
+              class={`nav-link${item.active ? ' is-current' : ''}`}
+              href={item.href}
+              aria-current={item.active ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
           </li>
         ))}
       </ul>
     </nav>
 
     <div class="header-actions">
-      <a class="btn btn-primary header-cta" href="#gabung">Gabung Komunitas</a>
+      <a class="btn btn-primary header-cta" href="/#gabung">Gabung Komunitas</a>
       <button
         type="button"
         class="menu-toggle"
@@ -57,12 +65,19 @@ const navLinks = [
         <ul class="drawer-list">
           {navLinks.map((item) => (
             <li>
-              <a class="drawer-link" href={item.href} data-drawer-link>{item.label}</a>
+              <a
+                class={`drawer-link${item.active ? ' is-current' : ''}`}
+                href={item.href}
+                aria-current={item.active ? 'page' : undefined}
+                data-drawer-link
+              >
+                {item.label}
+              </a>
             </li>
           ))}
         </ul>
       </nav>
-      <a class="btn btn-primary drawer-cta" href="#gabung" data-drawer-link>Gabung Komunitas</a>
+      <a class="btn btn-primary drawer-cta" href="/#gabung" data-drawer-link>Gabung Komunitas</a>
     </div>
   </div>
 </header>
@@ -146,6 +161,14 @@ const navLinks = [
     transform: scaleX(0);
     transform-origin: left center;
     transition: transform var(--dur-base) var(--ease-out);
+  }
+
+  .nav-link.is-current {
+    color: var(--color-indigo);
+  }
+
+  .nav-link.is-current::after {
+    transform: scaleX(1);
   }
 
   @media (hover: hover) and (pointer: fine) {

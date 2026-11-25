@@ -1,0 +1,169 @@
+---
+import { communityRulesFaq } from '../data/community';
+---
+
+<section class="rules-faq" id="aturan" aria-labelledby="rules-title">
+  <div class="wrap rules-grid">
+    <div class="rules-intro">
+      <h2 id="rules-title" class="rules-heading">Aturan main dan pertanyaan umum</h2>
+      <p class="rules-lead">
+        Supaya suasana mabar 5-stack, internal scrim, dan kopdar selalu nyaman buat pemain lama maupun baru, berikut hal mendasar yang perlu diketahui sebelum bergabung.
+      </p>
+      <div class="rules-links">
+        <a class="btn btn-secondary" href="/turnamen">Lihat agenda turnamen</a>
+        <a class="btn btn-secondary" href="/kegiatan">Baca rekap kegiatan</a>
+      </div>
+    </div>
+
+    <div class="faq-list">
+      {communityRulesFaq.map((item, idx) => (
+        <details class="faq-item" open={idx === 0}>
+          <summary class="faq-summary">
+            <span class="faq-question">{item.question}</span>
+            <span class="faq-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+            </span>
+          </summary>
+          <div class="faq-body">
+            <p>{item.answer}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .rules-faq {
+    background-color: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    padding-block: var(--section-py);
+  }
+
+  .rules-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 4.8fr) minmax(0, 7.2fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: start;
+  }
+
+  .rules-intro {
+    display: grid;
+    gap: 1.15rem;
+    min-width: 0;
+  }
+
+  .rules-heading {
+    font-size: var(--text-h2);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.028em;
+    color: var(--color-indigo);
+  }
+
+  .rules-lead {
+    color: var(--color-ink-muted);
+  }
+
+  .rules-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    padding-top: 0.35rem;
+  }
+
+  .faq-list {
+    border-top: 2px solid var(--color-indigo);
+    display: grid;
+    min-width: 0;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .faq-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    padding-block: 1.25rem;
+    list-style: none;
+    cursor: pointer;
+    min-height: 48px;
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+
+  .faq-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-question {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--color-ink);
+  }
+
+  .faq-icon {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--color-border-strong);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-indigo);
+    transition:
+      transform var(--dur-base) var(--ease-out),
+      background-color var(--dur-fast) var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out);
+  }
+
+  .faq-item[open] .faq-icon {
+    transform: rotate(45deg);
+    background-color: var(--color-gold);
+    border-color: var(--color-gold);
+    color: var(--color-indigo-deep);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .faq-summary:hover .faq-question {
+      color: var(--color-indigo);
+    }
+  }
+
+  .faq-body {
+    padding-bottom: 1.35rem;
+    padding-right: 2.5rem;
+    color: var(--color-ink-muted);
+    font-size: var(--text-base);
+  }
+
+  @media (max-width: 900px) {
+    .rules-grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2.25rem;
+    }
+
+    .faq-body {
+      padding-right: 0;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .rules-links {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .rules-links .btn {
+      width: 100%;
+    }
+  }
+</style>

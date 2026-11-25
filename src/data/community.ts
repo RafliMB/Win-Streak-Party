@@ -34,19 +34,40 @@ export interface GalleryPhoto {
   span: 'wide' | 'narrow' | 'half';
 }
 
+export interface CommunityRuleFaq {
+  question: string;
+  answer: string;
+}
+
+export interface CommunityEvent {
+  id: string;
+  title: string;
+  status: 'Dibuka' | 'Segera Dibuka' | 'Selesai';
+  dateLabel: string;
+  format: string;
+  location: string;
+  summary: string;
+  rules: string[];
+  image: string;
+  imageAlt: string;
+}
+
 export const communityInfo = {
   name: 'Win Streak Party',
   shortName: 'WSP',
+  domain: 'winstreakparty.my.id',
   tagline: 'Komunitas Mobile Legends untuk mabar 5-stack rutin, push rank solid, internal scrim, dan nobar MPL bareng.',
   heroHeading: 'Main bareng serius, menang bareng tanpa drama.',
   heroLead:
     'Win Streak Party adalah rumah mabar Mobile Legends bagi pemain kasual hingga Mythical Immortal yang mencari party komunikasi aktif, scrim rapi, dan teman kopdar.',
   channels: {
-    // Ganti tautan placeholder berikut dengan undangan resmi komunitas Anda
+    // Ganti tautan & nomor WhatsApp admin placeholder berikut dengan data resmi komunitas Anda
     discordUrl: 'https://discord.gg/winstreakparty',
     discordDisplay: 'discord.gg/winstreakparty',
     whatsappUrl: 'https://chat.whatsapp.com/WinStreakPartyCommunity',
     whatsappDisplay: 'Grup WhatsApp Win Streak Party',
+    // Format internasional tanpa tanda + atau spasi (contoh: 6281234567890)
+    whatsappAdminPhone: '6281200000000',
     instagramUrl: 'https://instagram.com/winstreakparty.id',
     instagramDisplay: '@winstreakparty.id',
   },
@@ -211,6 +232,70 @@ export const galleryPhotos: GalleryPhoto[] = [
     alt: 'Sesi mabar 5-stack Mobile Legends lima pemain mengelilingi meja kayu dengan suasana akrab.',
     label: 'Mabar 5-stack malam pekan',
     span: 'half',
+  },
+];
+
+export const communityRulesFaq: CommunityRuleFaq[] = [
+  {
+    question: 'Apakah pemain tier Epic atau kasual boleh bergabung?',
+    answer:
+      'Boleh. Win Streak Party terbuka dari pemain kasual hingga Mythical Immortal. Lobi mabar selalu dikelompokkan berdasarkan rentang tier yang berdekatan supaya semua pemain bisa menikmati pertandingan yang seimbang.',
+  },
+  {
+    question: 'Bagaimana aturan pembagian lane supaya tidak rebutan role?',
+    answer:
+      'Setiap anggota memilih role utama dan satu role cadangan saat masuk lobi Discord. Kapten sesi menyusun susunan 5-stack sebelum masuk room, dan anggota bergantian fleksibel jika ada dua pemain dengan role sama.',
+  },
+  {
+    question: 'Apa aturan soal perilaku toxic, AFK, atau menyalahkan rekan setim?',
+    answer:
+      'Kami menerapkan prinsip zero toxic. Kritik permainan selalu dibahas secara tenang setelah pertandingan usai, bukan lewat emosi di voice atau chat dalam game. Pelanggaran berulang akan ditegur admin hingga dikeluarkan dari grup.',
+  },
+  {
+    question: 'Apakah wajib punya skuad 5 orang untuk ikut scrim atau fun tournament?',
+    answer:
+      'Tidak wajib. Kamu bisa mendaftar sebagai pemain individu; panitia akan memasangkan pendaftar solo ke tim berimbang sesuai role yang masih kosong sebelum bagan diundi.',
+  },
+  {
+    question: 'Apakah ada biaya pendaftaran anggota komunitas?',
+    answer:
+      'Bergabung ke komunitas, ikut mabar rutin, dan mengikuti internal scrim tidak dipungut biaya keanggotaan. Untuk acara offline atau nobar di kafe, anggota cukup memesan makanan atau minuman masing-masing di lokasi.',
+  },
+];
+
+export const upcomingEvents: CommunityEvent[] = [
+  {
+    id: 'wsp-fun-cup',
+    title: 'WSP Fun Cup 5v5 — Custom Draft Pick',
+    status: 'Dibuka',
+    dateLabel: 'Jadwal contoh (Sabtu akhir bulan, 15.00 WIB)',
+    format: '5v5 Custom Draft Pick (10 Ban), Single Elimination & Bo3 Final',
+    location: 'Online via Discord + Kopdar Final',
+    summary:
+      'Turnamen internal bulanan untuk seluruh member aktif Win Streak Party. Bisa daftar satu skuad penuh maupun individu untuk dipasangkan ke tim acak berimbang.',
+    rules: [
+      'Terbuka untuk seluruh anggota yang sudah terverifikasi di Discord atau WhatsApp.',
+      'Batas keterlambatan masuk custom room maksimal 10 menit dari jadwal ronde.',
+      'Dilarang menggunakan chat all provokatif, taunting berlebihan, atau akun joki.',
+    ],
+    image: '/images/activities/activity-tournament.jpg',
+    imageAlt: 'Suasana turnamen mini Mobile Legends komunitas.',
+  },
+  {
+    id: 'nobar-mpl',
+    title: 'Nobar Big Match MPL & Mabar Santai',
+    status: 'Segera Dibuka',
+    dateLabel: 'Jadwal contoh (Minggu malam, 18.30 WIB)',
+    format: 'Nonton bareng layar besar dilanjutkan mabar 5-stack di lokasi',
+    location: 'Kafe mitra (lokasi diumumkan di grup WhatsApp)',
+    summary:
+      'Ajang kenalan santai bagi anggota baru dan lama sambil menonton pertandingan playoff Mobile Legends bersama.',
+    rules: [
+      'Konfirmasi kehadiran H-1 di grup WhatsApp agar panitia bisa menyiapkan kursi.',
+      'Bawa charger atau power bank sendiri untuk sesi mabar setelah nobar.',
+    ],
+    image: '/images/activities/activity-nobar.jpg',
+    imageAlt: 'Anggota komunitas menonton pertandingan Mobile Legends bersama di kafe.',
   },
 ];
 
