@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import Picture from '../../components/Picture.astro';
 
 const posts = (await getCollection('kegiatan')).sort((a, b) =>
   b.data.date.localeCompare(a.data.date)
@@ -14,11 +15,44 @@ const formatDate = (iso: string) =>
     month: 'long',
     year: 'numeric',
   }).format(new Date(iso));
+
+const siteOrigin = (Astro.site ?? new URL('https://winstreakparty.my.id')).toString().replace(/\/$/, '');
+
+const archiveSchemas = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Beranda',
+        item: `${siteOrigin}/`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Rekap Kegiatan',
+        item: `${siteOrigin}/kegiatan`,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Rekap Kegiatan — Win Streak Party',
+    url: `${siteOrigin}/kegiatan`,
+    inLanguage: 'id-ID',
+    description:
+      'Arsip catatan mabar 5-stack, internal scrim, turnamen mini, dan nobar MPL komunitas Mobile Legends Win Streak Party.',
+  },
+];
 ---
 
 <BaseLayout
   title="Rekap Kegiatan — Win Streak Party"
   description="Arsip catatan mabar 5-stack, internal scrim, turnamen mini, dan nobar MPL komunitas Mobile Legends Win Streak Party."
+  jsonLd={archiveSchemas}
 >
   <Header />
   <main id="konten-utama">
@@ -27,7 +61,7 @@ const formatDate = (iso: string) =>
         <nav class="breadcrumb" aria-label="Jejak halaman">
           <a href="/">Beranda</a>
           <span aria-hidden="true">/</span>
-          <span>Rekap Kegiatan</span>
+          <span aria-current="page">Rekap Kegiatan</span>
         </nav>
         <h1 class="page-title">Rekap kegiatan dan catatan lobi</h1>
         <p class="page-lead">
@@ -38,16 +72,15 @@ const formatDate = (iso: string) =>
 
     <section class="archive-section" aria-label="Daftar artikel kegiatan">
       <div class="wrap archive-grid">
-        {posts.map((post) => (
+        {posts.map((post, idx) => (
           <article class="post-card">
             <a class="post-link" href={`/kegiatan/${post.id}`}>
               <div class="post-cover">
-                <img
+                <Picture
                   src={post.data.cover}
                   alt={post.data.coverAlt}
-                  width="1200"
-                  height="800"
-                  decoding="async"
+                  sizes="(max-width: 620px) 100vw, (max-width: 960px) 50vw, 33vw"
+                  loading={idx < 3 ? 'eager' : 'lazy'}
                 />
               </div>
 
@@ -88,8 +121,14 @@ const formatDate = (iso: string) =>
   }
 
   .breadcrumb a {
-    color: var(--color-indigo);
+    color: var(--color-accent);
     text-decoration: none;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
   }
 
   .page-title {
@@ -97,7 +136,7 @@ const formatDate = (iso: string) =>
     font-weight: 800;
     line-height: 1.05;
     letter-spacing: -0.03em;
-    color: var(--color-indigo);
+    color: var(--color-heading);
     max-width: 18ch;
   }
 
@@ -135,10 +174,7 @@ const formatDate = (iso: string) =>
     aspect-ratio: 3 / 2;
   }
 
-  .post-cover img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  .post-cover :global(img) {
     transition: transform var(--dur-slow) var(--ease-out);
   }
 
@@ -147,12 +183,12 @@ const formatDate = (iso: string) =>
       transform: translateY(-2px);
     }
 
-    .post-link:hover .post-cover img {
+    .post-link:hover .post-cover :global(img) {
       transform: scale(1.03);
     }
 
     .post-link:hover .post-title {
-      color: var(--color-indigo-soft);
+      color: var(--color-heading-hover);
     }
   }
 
@@ -170,8 +206,8 @@ const formatDate = (iso: string) =>
   .post-category {
     padding: 0.28rem 0.75rem;
     border-radius: var(--radius-pill);
-    background-color: var(--color-surface-tint);
-    color: var(--color-indigo);
+    background-color: var(--color-tag-online-bg);
+    color: var(--color-tag-online-text);
   }
 
   .post-title {
@@ -179,7 +215,7 @@ const formatDate = (iso: string) =>
     font-weight: 800;
     line-height: 1.2;
     letter-spacing: -0.02em;
-    color: var(--color-indigo);
+    color: var(--color-heading);
     transition: color var(--dur-fast) var(--ease-out);
   }
 
@@ -198,6 +234,18 @@ const formatDate = (iso: string) =>
   @media (max-width: 620px) {
     .archive-grid {
       grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .post-link,
+    .post-cover :global(img) {
+      transition: color var(--dur-fast) ease;
+    }
+
+    .post-link:hover,
+    .post-link:hover .post-cover :global(img) {
+      transform: none;
     }
   }
 </style>

@@ -9,6 +9,8 @@ import { communityInfo, formPlaystyles, formRoles, formTiers } from '../data/com
   data-wa-phone={communityInfo.channels.whatsappAdminPhone}
   data-site-domain={communityInfo.domain}
 >
+  <p class="sr-only" aria-live="polite" id="join-live-status"></p>
+
   <div class="wrap join-grid">
     <div class="join-channels">
       <div class="join-intro">
@@ -116,6 +118,7 @@ import { communityInfo, formPlaystyles, formRoles, formTiers } from '../data/com
             type="text"
             class="field-input"
             placeholder="Contoh: @raka.gg atau 08xx-xxxx-xxxx"
+            autocomplete="tel"
             required
             aria-describedby="err-contact"
           />
@@ -258,7 +261,7 @@ import { communityInfo, formPlaystyles, formRoles, formTiers } from '../data/com
     font-weight: 800;
     line-height: 1.08;
     letter-spacing: -0.028em;
-    color: var(--color-indigo);
+    color: var(--color-heading);
   }
 
   .join-lead {
@@ -278,8 +281,9 @@ import { communityInfo, formPlaystyles, formRoles, formTiers } from '../data/com
   }
 
   .channel-discord {
-    background-color: var(--color-indigo);
+    background-color: var(--color-band-bg);
     color: var(--color-ink-on-dark);
+    border: 1px solid var(--color-border-dark);
   }
 
   .channel-surface {
@@ -301,13 +305,13 @@ import { communityInfo, formPlaystyles, formRoles, formTiers } from '../data/com
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--color-gold);
-    color: var(--color-indigo-deep);
+    background-color: var(--brand-gold);
+    color: var(--brand-indigo-deep);
   }
 
   .channel-icon-light {
     background-color: var(--color-surface-tint);
-    color: var(--color-indigo);
+    color: var(--color-accent);
   }
 
   .channel-title {
@@ -334,20 +338,19 @@ import { communityInfo, formPlaystyles, formRoles, formTiers } from '../data/com
     gap: 0.7rem;
   }
 
-  /* Form Box */
+  /* Form Box — deklarasi elevasi tunggal (border tegas tanpa ghost shadow) */
   .join-form-box {
     background-color: var(--color-surface);
     border: 1px solid var(--color-border-strong);
     border-radius: var(--radius-lg);
     padding: clamp(1.5rem, 3.2vw, 2.4rem);
-    box-shadow: var(--shadow-soft);
     min-width: 0;
   }
 
   .form-heading {
     font-size: var(--text-h3);
     font-weight: 800;
-    color: var(--color-indigo);
+    color: var(--color-heading);
     margin-bottom: 0.45rem;
   }
 
@@ -360,6 +363,10 @@ import { communityInfo, formPlaystyles, formRoles, formTiers } from '../data/com
   .member-form {
     display: grid;
     gap: 1.25rem;
+  }
+
+  .member-form[hidden] {
+    display: none;
   }
 
   .field-group {
@@ -406,7 +413,7 @@ import { communityInfo, formPlaystyles, formRoles, formTiers } from '../data/com
 
   .field-input:focus {
     background-color: var(--color-surface);
-    border-color: var(--color-indigo);
+    border-color: var(--color-accent);
   }
 
   .field-input[aria-invalid='true'] {
@@ -442,11 +449,12 @@ import { communityInfo, formPlaystyles, formRoles, formTiers } from '../data/com
     cursor: pointer;
     transition:
       border-color var(--dur-fast) var(--ease-out),
-      background-color var(--dur-fast) var(--ease-out);
+      background-color var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out);
   }
 
   .game-check input {
-    accent-color: var(--color-indigo);
+    accent-color: var(--color-accent);
     width: 16px;
     height: 16px;
     margin: 0;
@@ -454,8 +462,8 @@ import { communityInfo, formPlaystyles, formRoles, formTiers } from '../data/com
 
   .game-check:has(input:checked) {
     background-color: var(--color-surface-tint);
-    border-color: var(--color-indigo);
-    color: var(--color-indigo);
+    border-color: var(--color-accent);
+    color: var(--color-heading);
   }
 
   .field-error {
@@ -595,6 +603,11 @@ import { communityInfo, formPlaystyles, formRoles, formTiers } from '../data/com
 </style>
 
 <script>
+  const liveStatusEl = document.getElementById('join-live-status');
+  const announce = (msg: string) => {
+    if (liveStatusEl) liveStatusEl.textContent = msg;
+  };
+
   // Salin tautan cepat di kanal Discord
   document.querySelectorAll<HTMLButtonElement>('[data-copy-text]').forEach((btn) => {
     btn.addEventListener('click', async () => {
@@ -603,8 +616,10 @@ import { communityInfo, formPlaystyles, formRoles, formTiers } from '../data/com
       try {
         await navigator.clipboard.writeText(value);
         btn.textContent = 'Tersalin';
+        announce(`Tautan ${value} tersalin ke papan klip.`);
       } catch {
         btn.textContent = value;
+        announce(`Tautan ditampilkan: ${value}`);
       }
       window.setTimeout(() => {
         btn.textContent = original;
@@ -696,17 +711,18 @@ import { communityInfo, formPlaystyles, formRoles, formTiers } from '../data/com
     await document.fonts.ready;
     const logoImg = await loadLogoImage();
     const styles = getComputedStyle(document.documentElement);
-    const colIndigo = styles.getPropertyValue('--color-indigo').trim() || '#1b1464';
-    const colIndigoDeep = styles.getPropertyValue('--color-indigo-deep').trim() || '#110c45';
-    const colGold = styles.getPropertyValue('--color-gold').trim() || '#fbb03b';
-    const colSurface = styles.getPropertyValue('--color-surface').trim() || '#ffffff';
-    const colInkLight = styles.getPropertyValue('--color-ink-on-dark').trim() || '#f7f6f2';
+    // Selalu gunakan primitif warna merek agar hasil unduhan PNG konsisten di mode terang maupun gelap
+    const colIndigo = styles.getPropertyValue('--brand-indigo').trim() || '#1b1464';
+    const colIndigoDeep = styles.getPropertyValue('--brand-indigo-deep').trim() || '#110c45';
+    const colGold = styles.getPropertyValue('--brand-gold').trim() || '#fbb03b';
+    const colSurface = styles.getPropertyValue('--brand-surface-white').trim() || '#ffffff';
+    const colInkLight = styles.getPropertyValue('--brand-chalk').trim() || '#f7f6f2';
     const colMutedLight = styles.getPropertyValue('--color-ink-on-dark-muted').trim() || '#c6c3e2';
 
     const W = 1080;
     const H = 1080;
 
-    // Background Indigo Deep
+    // Background Indigo
     ctx.fillStyle = colIndigo;
     ctx.fillRect(0, 0, W, H);
 
@@ -802,6 +818,34 @@ import { communityInfo, formPlaystyles, formRoles, formTiers } from '../data/com
     let latestSummary = '';
     let latestNickname = 'member-wsp';
 
+    // Hapus pesan error secara langsung ketika pengguna memperbaiki input
+    const nameInput = document.getElementById('member-name') as HTMLInputElement | null;
+    const contactInput = document.getElementById('member-contact') as HTMLInputElement | null;
+    const roleCheckboxes = form.querySelectorAll<HTMLInputElement>('input[name="roles"]');
+    const errRolesEl = document.getElementById('err-roles');
+
+    nameInput?.addEventListener('input', () => {
+      if (nameInput.value.trim().length >= 2) {
+        setFieldError('member-name', 'err-name', '');
+      }
+    });
+
+    contactInput?.addEventListener('input', () => {
+      if (contactInput.value.trim().length >= 3) {
+        setFieldError('member-contact', 'err-contact', '');
+      }
+    });
+
+    roleCheckboxes.forEach((checkbox) => {
+      checkbox.addEventListener('change', () => {
+        const checkedCount = form.querySelectorAll('input[name="roles"]:checked').length;
+        if (checkedCount > 0 && errRolesEl) {
+          errRolesEl.textContent = '';
+          errRolesEl.hidden = true;
+        }
+      });
+    });
+
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
       const data = new FormData(form);
@@ -828,16 +872,15 @@ import { communityInfo, formPlaystyles, formRoles, formTiers } from '../data/com
         setFieldError('member-contact', 'err-contact', '');
       }
 
-      const errRoles = document.getElementById('err-roles');
       if (roles.length === 0) {
-        if (errRoles) {
-          errRoles.textContent = 'Pilih setidaknya satu role utama yang sering kamu mainkan.';
-          errRoles.hidden = false;
+        if (errRolesEl) {
+          errRolesEl.textContent = 'Pilih setidaknya satu role utama yang sering kamu mainkan.';
+          errRolesEl.hidden = false;
         }
         valid = false;
-      } else if (errRoles) {
-        errRoles.textContent = '';
-        errRoles.hidden = true;
+      } else if (errRolesEl) {
+        errRolesEl.textContent = '';
+        errRolesEl.hidden = true;
       }
 
       if (!valid) {
@@ -867,6 +910,7 @@ import { communityInfo, formPlaystyles, formRoles, formTiers } from '../data/com
       form.hidden = true;
       successBox.hidden = false;
       await renderMemberCard({ nickname, roles, tier, playstyle, note });
+      announce('Biodata dan kartu member berhasil dibuat.');
       successBox.focus();
     });
 
@@ -876,6 +920,7 @@ import { communityInfo, formPlaystyles, formRoles, formTiers } from '../data/com
       link.download = `kartu-member-wsp-${latestNickname}.png`;
       link.href = canvas.toDataURL('image/png');
       link.click();
+      announce('Kartu member PNG mulai diunduh.');
     });
 
     copySummaryBtn?.addEventListener('click', async () => {
@@ -884,8 +929,10 @@ import { communityInfo, formPlaystyles, formRoles, formTiers } from '../data/com
       try {
         await navigator.clipboard.writeText(latestSummary);
         copySummaryBtn.textContent = 'Biodata tersalin';
+        announce('Biodata member tersalin ke papan klip.');
       } catch {
         copySummaryBtn.textContent = 'Gagal menyalin otomatis';
+        announce('Gagal menyalin biodata otomatis.');
       }
       window.setTimeout(() => {
         copySummaryBtn.textContent = original;

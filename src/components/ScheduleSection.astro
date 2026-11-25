@@ -25,6 +25,10 @@ import { weeklySchedule } from '../data/community';
       </div>
     </div>
 
+    <p class="sr-only" aria-live="polite" data-schedule-status>
+      Menampilkan {weeklySchedule.length} sesi mingguan.
+    </p>
+
     <div class="schedule-ledger" role="list">
       {weeklySchedule.map((item) => (
         <article class="schedule-row" role="listitem" data-schedule-mode={item.mode}>
@@ -87,7 +91,7 @@ import { weeklySchedule } from '../data/community';
     font-weight: 800;
     line-height: 1.08;
     letter-spacing: -0.028em;
-    color: var(--color-indigo);
+    color: var(--color-heading);
   }
 
   .schedule-sub {
@@ -124,19 +128,20 @@ import { weeklySchedule } from '../data/community';
 
   @media (hover: hover) and (pointer: fine) {
     .filter-btn:hover:not(.is-active) {
-      border-color: var(--color-indigo);
-      color: var(--color-indigo);
+      border-color: var(--color-accent);
+      color: var(--color-heading);
     }
   }
 
   .filter-btn.is-active {
-    background-color: var(--color-indigo);
-    border-color: var(--color-indigo);
-    color: var(--color-ink-on-dark);
+    background-color: var(--color-btn-primary-bg);
+    border-color: var(--color-btn-primary-bg);
+    color: var(--color-btn-primary-text);
+    font-weight: 700;
   }
 
   .schedule-ledger {
-    border-top: 2px solid var(--color-indigo);
+    border-top: 2px solid var(--color-accent);
     display: grid;
   }
 
@@ -171,7 +176,7 @@ import { weeklySchedule } from '../data/community';
     font-family: var(--font-display);
     font-size: 1.25rem;
     font-weight: 800;
-    color: var(--color-indigo);
+    color: var(--color-accent);
     line-height: 1.15;
   }
 
@@ -191,7 +196,7 @@ import { weeklySchedule } from '../data/community';
   .activity-name {
     font-size: var(--text-h3);
     font-weight: 700;
-    color: var(--color-ink);
+    color: var(--color-heading);
     line-height: 1.22;
     letter-spacing: -0.02em;
   }
@@ -235,13 +240,13 @@ import { weeklySchedule } from '../data/community';
   }
 
   .mode-online {
-    background-color: var(--color-surface-tint);
-    color: var(--color-indigo);
+    background-color: var(--color-tag-online-bg);
+    color: var(--color-tag-online-text);
   }
 
   .mode-offline {
-    background-color: var(--color-gold-pale);
-    color: var(--color-indigo-deep);
+    background-color: var(--color-tag-offline-bg);
+    color: var(--color-tag-offline-text);
   }
 
   .schedule-footnote {
@@ -286,11 +291,24 @@ import { weeklySchedule } from '../data/community';
       order: 4;
     }
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    .filter-btn:active {
+      transform: none;
+    }
+  }
 </style>
 
 <script>
   const filterBtns = document.querySelectorAll<HTMLButtonElement>('[data-schedule-filter]');
   const rows = document.querySelectorAll<HTMLElement>('[data-schedule-mode]');
+  const statusEl = document.querySelector<HTMLElement>('[data-schedule-status]');
+
+  const filterLabels: Record<string, string> = {
+    all: 'semua sesi',
+    online: 'sesi online',
+    offline: 'sesi offline dan kopdar',
+  };
 
   filterBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -301,10 +319,17 @@ import { weeklySchedule } from '../data/community';
         b.setAttribute('aria-pressed', active ? 'true' : 'false');
       });
 
+      let visibleCount = 0;
       rows.forEach((row) => {
         const mode = row.dataset.scheduleMode;
-        row.hidden = selected !== 'all' && mode !== selected;
+        const shouldHide = selected !== 'all' && mode !== selected;
+        row.hidden = shouldHide;
+        if (!shouldHide) visibleCount += 1;
       });
+
+      if (statusEl) {
+        statusEl.textContent = `Menampilkan ${visibleCount} ${filterLabels[selected] || 'sesi'}.`;
+      }
     });
   });
 </script>

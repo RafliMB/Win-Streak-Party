@@ -1,5 +1,6 @@
 ---
 import { activeRoles, pillars } from '../data/community';
+import Picture from './Picture.astro';
 ---
 
 <section class="about" id="tentang" aria-labelledby="about-title">
@@ -15,12 +16,11 @@ import { activeRoles, pillars } from '../data/community';
       </p>
 
       <div class="about-photo">
-        <img
+        <Picture
           src="/images/activities/activity-scrim.jpg"
           alt="Empat anggota Win Streak Party berdiskusi strategi draft pick Mobile Legends di meja kafe"
-          width="1200"
-          height="896"
-          decoding="async"
+          sizes="(max-width: 900px) 100vw, 48vw"
+          loading="lazy"
         />
       </div>
     </div>
@@ -70,7 +70,7 @@ import { activeRoles, pillars } from '../data/community';
     font-weight: 800;
     line-height: 1.08;
     letter-spacing: -0.028em;
-    color: var(--color-indigo);
+    color: var(--color-heading);
   }
 
   .about-intro {
@@ -85,12 +85,6 @@ import { activeRoles, pillars } from '../data/community';
     border-radius: var(--radius-md);
     background-color: var(--color-surface-muted);
     aspect-ratio: 4 / 3;
-  }
-
-  .about-photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
   }
 
   .about-right {
@@ -119,7 +113,7 @@ import { activeRoles, pillars } from '../data/community';
     font-size: var(--text-h3);
     font-weight: 700;
     letter-spacing: -0.02em;
-    color: var(--color-indigo);
+    color: var(--color-heading);
     line-height: 1.2;
   }
 
@@ -137,7 +131,7 @@ import { activeRoles, pillars } from '../data/community';
     font-family: var(--font-body);
     font-size: var(--text-sm);
     font-weight: 700;
-    color: var(--color-indigo);
+    color: var(--color-accent);
   }
 
   .divisions-list {
@@ -156,7 +150,7 @@ import { activeRoles, pillars } from '../data/community';
     border: 1px solid var(--color-border-strong);
     font-size: var(--text-sm);
     font-weight: 600;
-    color: var(--color-indigo);
+    color: var(--color-heading);
   }
 
   @media (max-width: 900px) {

@@ -23,12 +23,15 @@ body {
   color: var(--color-ink);
   font-size: var(--text-base);
   line-height: 1.62;
-  caret-color: var(--color-indigo);
+  caret-color: var(--color-accent);
+  transition:
+    background-color var(--dur-base) var(--ease-out),
+    color var(--dur-base) var(--ease-out);
 }
 
 ::selection {
   background-color: var(--color-gold);
-  color: var(--color-indigo-deep);
+  color: var(--brand-indigo-deep);
 }
 
 /* Scrollbar mengikuti palet merek */
@@ -48,7 +51,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-indigo);
+  background: var(--color-accent);
 }
 
 img,
@@ -78,7 +81,7 @@ h3,
 h4 {
   font-family: var(--font-display);
   margin: 0;
-  color: var(--color-ink);
+  color: var(--color-heading);
   overflow-wrap: break-word;
   min-width: 0;
   text-wrap: balance;
@@ -91,7 +94,7 @@ p {
 
 /* Fokus keyboard langsung terlihat di semua elemen interaktif */
 :focus-visible {
-  outline: 2.5px solid var(--color-indigo);
+  outline: 2.5px solid var(--color-focus);
   outline-offset: 3px;
 }
 
@@ -108,11 +111,11 @@ p {
   z-index: 200;
   padding: 0.75rem 1.15rem;
   border-radius: var(--radius-sm);
-  background-color: var(--color-indigo);
-  color: var(--color-ink-on-dark);
-  font-weight: 600;
+  background-color: var(--color-btn-primary-bg);
+  color: var(--color-btn-primary-text);
+  font-weight: 700;
   text-decoration: none;
-  transform: translateY(-160%);
+  transform: translateY(-180%);
   transition: transform var(--dur-fast) var(--ease-out);
 }
 
@@ -161,13 +164,13 @@ section[id] {
 }
 
 .btn-primary {
-  background-color: var(--color-indigo);
-  color: var(--color-ink-on-dark);
+  background-color: var(--color-btn-primary-bg);
+  color: var(--color-btn-primary-text);
 }
 
 .btn-gold {
-  background-color: var(--color-gold);
-  color: var(--color-indigo-deep);
+  background-color: var(--brand-gold);
+  color: var(--brand-indigo-deep);
 }
 
 .btn-secondary {
@@ -184,24 +187,24 @@ section[id] {
 
 @media (hover: hover) and (pointer: fine) {
   .btn-primary:hover {
-    background-color: var(--color-indigo-deep);
+    background-color: var(--color-btn-primary-hover);
     transform: translateY(-1px);
   }
 
   .btn-gold:hover {
-    background-color: var(--color-gold-hover);
+    background-color: var(--brand-gold-hover);
     transform: translateY(-1px);
   }
 
   .btn-secondary:hover {
     background-color: var(--color-surface);
-    border-color: var(--color-indigo);
+    border-color: var(--color-accent);
     transform: translateY(-1px);
   }
 
   .btn-secondary-dark:hover {
     background-color: var(--color-surface-dark-hover);
-    border-color: var(--color-gold);
+    border-color: var(--brand-gold);
     transform: translateY(-1px);
   }
 }
@@ -246,16 +249,19 @@ section[id] {
   }
 }
 
+/* Reduced motion: hapus perpindahan spasial, tetap pertahankan transisi warna & opacity yang membantu pemahaman */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
 
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+  .hero-enter,
+  .hero-enter-delay {
+    animation: none;
+  }
+
+  .btn:hover,
+  .btn:active {
+    transform: none;
   }
 }

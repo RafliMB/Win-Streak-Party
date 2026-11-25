@@ -4,23 +4,25 @@ import { communityInfo } from '../data/community';
 const currentPath = Astro.url.pathname;
 
 const navLinks = [
-  { href: '/#tentang', label: 'Tentang', active: false },
-  { href: '/#jadwal', label: 'Jadwal', active: false },
-  { href: '/turnamen', label: 'Turnamen', active: currentPath.startsWith('/turnamen') },
-  { href: '/kegiatan', label: 'Rekap', active: currentPath.startsWith('/kegiatan') },
+  { href: '/#tentang', label: 'Tentang', sectionId: 'tentang', active: false },
+  { href: '/#jadwal', label: 'Jadwal', sectionId: 'jadwal', active: false },
+  { href: '/turnamen', label: 'Turnamen', sectionId: null, active: currentPath.startsWith('/turnamen') },
+  { href: '/kegiatan', label: 'Rekap', sectionId: null, active: currentPath.startsWith('/kegiatan') },
 ];
 ---
 
 <header class="site-header" data-header>
   <div class="wrap header-inner">
     <a class="brand" href="/" aria-label="Beranda Win Streak Party">
-      <img
-        class="brand-mark"
-        src="/images/brand/wsp-logo-mark.png"
-        alt=""
-        width="40"
-        height="33"
-      />
+      <span class="brand-mark-wrap">
+        <img
+          class="brand-mark"
+          src="/images/brand/wsp-logo-mark.png"
+          alt=""
+          width="40"
+          height="33"
+        />
+      </span>
       <span class="brand-name">{communityInfo.name}</span>
     </a>
 
@@ -32,6 +34,7 @@ const navLinks = [
               class={`nav-link${item.active ? ' is-current' : ''}`}
               href={item.href}
               aria-current={item.active ? 'page' : undefined}
+              data-nav-section={item.sectionId ?? undefined}
             >
               {item.label}
             </a>
@@ -41,7 +44,32 @@ const navLinks = [
     </nav>
 
     <div class="header-actions">
+      <button
+        type="button"
+        class="theme-toggle"
+        aria-label="Ubah ke mode gelap"
+        aria-pressed="false"
+        title="Ganti tema terang atau gelap"
+        data-theme-toggle
+      >
+        <svg class="icon-moon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </svg>
+        <svg class="icon-sun" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.5" />
+          <line x1="12" y1="2.5" x2="12" y2="4.5" />
+          <line x1="12" y1="19.5" x2="12" y2="21.5" />
+          <line x1="4.93" y1="4.93" x2="6.34" y2="6.34" />
+          <line x1="17.66" y1="17.66" x2="19.07" y2="19.07" />
+          <line x1="2.5" y1="12" x2="4.5" y2="12" />
+          <line x1="19.5" y1="12" x2="21.5" y2="12" />
+          <line x1="4.93" y1="19.07" x2="6.34" y2="17.66" />
+          <line x1="17.66" y1="6.34" x2="19.07" y2="4.93" />
+        </svg>
+      </button>
+
       <a class="btn btn-primary header-cta" href="/#gabung">Gabung Komunitas</a>
+
       <button
         type="button"
         class="menu-toggle"
@@ -89,7 +117,17 @@ const navLinks = [
     z-index: 90;
     background-color: var(--color-header-bg);
     backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--color-border);
+    transition:
+      background-color var(--dur-base) var(--ease-out),
+      box-shadow var(--dur-base) var(--ease-out),
+      border-color var(--dur-base) var(--ease-out);
+  }
+
+  .site-header[data-scrolled='true'] {
+    box-shadow: var(--color-header-shadow);
+    border-bottom-color: var(--color-border-strong);
   }
 
   .header-inner {
@@ -108,9 +146,21 @@ const navLinks = [
     flex-shrink: 0;
   }
 
+  .brand-mark-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--logo-badge-bg);
+    padding: var(--logo-badge-pad);
+    border-radius: var(--radius-sm);
+    transition:
+      background-color var(--dur-base) var(--ease-out),
+      padding var(--dur-base) var(--ease-out);
+  }
+
   .brand-mark {
     width: auto;
-    height: 32px;
+    height: 30px;
     object-fit: contain;
   }
 
@@ -119,7 +169,7 @@ const navLinks = [
     font-size: 1.1875rem;
     font-weight: 800;
     letter-spacing: -0.025em;
-    color: var(--color-indigo);
+    color: var(--color-heading);
     line-height: 1;
   }
 
@@ -157,14 +207,14 @@ const navLinks = [
     right: 0.9rem;
     bottom: 8px;
     height: 2px;
-    background-color: var(--color-gold);
+    background-color: var(--brand-gold);
     transform: scaleX(0);
     transform-origin: left center;
     transition: transform var(--dur-base) var(--ease-out);
   }
 
   .nav-link.is-current {
-    color: var(--color-indigo);
+    color: var(--color-heading);
   }
 
   .nav-link.is-current::after {
@@ -173,7 +223,7 @@ const navLinks = [
 
   @media (hover: hover) and (pointer: fine) {
     .nav-link:hover {
-      color: var(--color-indigo);
+      color: var(--color-heading);
     }
 
     .nav-link:hover::after {
@@ -187,34 +237,99 @@ const navLinks = [
     gap: 0.65rem;
   }
 
+  .theme-toggle,
+  .menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-pill);
+    border: 1.5px solid var(--color-border-strong);
+    background-color: var(--color-surface);
+    color: var(--color-heading);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition:
+      background-color var(--dur-fast) var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out),
+      transform var(--dur-fast) var(--ease-out);
+  }
+
+  .menu-toggle {
+    display: none;
+    border-radius: var(--radius-sm);
+  }
+
+  .theme-toggle:active,
+  .menu-toggle:active {
+    transform: scale(0.95);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .theme-toggle:hover,
+    .menu-toggle:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+    }
+  }
+
+  .icon-sun {
+    display: none;
+  }
+
+  :global(:root[data-theme='dark']) .icon-moon {
+    display: none;
+  }
+
+  :global(:root[data-theme='dark']) .icon-sun {
+    display: block;
+    color: var(--brand-gold);
+  }
+
+  /* Hamburger-to-X SVG morph */
+  .menu-toggle line {
+    transform-box: fill-box;
+    transform-origin: center;
+    transition:
+      transform var(--dur-base) var(--ease-out),
+      opacity var(--dur-fast) var(--ease-out);
+  }
+
+  .menu-toggle[aria-expanded='true'] .line-top {
+    transform: translateY(5px) rotate(45deg);
+  }
+
+  .menu-toggle[aria-expanded='true'] .line-mid {
+    opacity: 0;
+    transform: scaleX(0.4);
+  }
+
+  .menu-toggle[aria-expanded='true'] .line-bot {
+    transform: translateY(-5px) rotate(-45deg);
+  }
+
   .header-cta {
     min-height: 44px;
     padding: 0.65rem 1.2rem;
   }
 
-  .menu-toggle {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    border-radius: var(--radius-sm);
-    border: 1.5px solid var(--color-border-strong);
-    background-color: var(--color-surface);
-    color: var(--color-indigo);
-    cursor: pointer;
-    transition:
-      background-color var(--dur-fast) var(--ease-out),
-      transform var(--dur-fast) var(--ease-out);
-  }
-
-  .menu-toggle:active {
-    transform: scale(0.96);
-  }
-
   .mobile-drawer {
     border-top: 1px solid var(--color-border);
     background-color: var(--color-canvas);
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      opacity var(--dur-base) var(--ease-out),
+      transform var(--dur-base) var(--ease-out);
+  }
+
+  @starting-style {
+    .mobile-drawer:not([hidden]) {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
   }
 
   .mobile-drawer[hidden] {
@@ -237,14 +352,20 @@ const navLinks = [
   .drawer-link {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     min-height: 48px;
     padding-block: 0.5rem;
     font-family: var(--font-display);
     font-size: 1.25rem;
     font-weight: 700;
-    color: var(--color-indigo);
+    color: var(--color-heading);
     text-decoration: none;
     border-bottom: 1px solid var(--color-border);
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+
+  .drawer-link.is-current {
+    color: var(--color-accent);
   }
 
   .drawer-cta {
@@ -261,13 +382,92 @@ const navLinks = [
       display: inline-flex;
     }
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-drawer,
+    .menu-toggle line,
+    .nav-link::after {
+      transition: opacity var(--dur-fast) ease, color var(--dur-fast) ease;
+    }
+  }
 </style>
 
 <script>
+  const headerEl = document.querySelector<HTMLElement>('[data-header]');
   const toggleBtn = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
   const drawer = document.querySelector<HTMLElement>('[data-mobile-drawer]');
   const drawerLinks = document.querySelectorAll<HTMLAnchorElement>('[data-drawer-link]');
+  const themeBtn = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
 
+  // Elevasi header saat halaman digulir
+  if (headerEl) {
+    const syncScroll = () => {
+      headerEl.dataset.scrolled = window.scrollY > 12 ? 'true' : 'false';
+    };
+    syncScroll();
+    window.addEventListener('scroll', syncScroll, { passive: true });
+  }
+
+  // Kontrol tema terang / gelap dengan persistensi localStorage
+  if (themeBtn) {
+    const syncThemeUi = (theme: string) => {
+      const isDark = theme === 'dark';
+      themeBtn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+      themeBtn.setAttribute('aria-label', isDark ? 'Ubah ke mode terang' : 'Ubah ke mode gelap');
+    };
+
+    const currentTheme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+    syncThemeUi(currentTheme);
+
+    themeBtn.addEventListener('click', () => {
+      const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.dataset.theme = next;
+      syncThemeUi(next);
+      try {
+        localStorage.setItem('wsp-theme', next);
+      } catch {
+        // Abaikan jika penyimpanan browser dibatasi
+      }
+    });
+
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    mediaQuery.addEventListener('change', (event) => {
+      try {
+        if (localStorage.getItem('wsp-theme')) return;
+      } catch {
+        return;
+      }
+      const next = event.matches ? 'dark' : 'light';
+      document.documentElement.dataset.theme = next;
+      syncThemeUi(next);
+    });
+  }
+
+  // Scroll-spy indikator seksi aktif di beranda
+  const sectionNavLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-nav-section]'));
+  if (sectionNavLinks.length > 0 && window.location.pathname === '/') {
+    const mainSections = Array.from(document.querySelectorAll<HTMLElement>('main section[id]'));
+    const linkBySection = new Map(
+      sectionNavLinks.map((link) => [link.dataset.navSection || '', link])
+    );
+
+    if (mainSections.length > 0 && 'IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const id = entry.target.id;
+            sectionNavLinks.forEach((l) => l.classList.remove('is-current'));
+            linkBySection.get(id)?.classList.add('is-current');
+          });
+        },
+        { rootMargin: '-28% 0px -56% 0px', threshold: 0 }
+      );
+      mainSections.forEach((section) => observer.observe(section));
+    }
+  }
+
+  // Menu seluler
   if (toggleBtn && drawer) {
     const closeMenu = () => {
       drawer.hidden = true;
@@ -289,6 +489,12 @@ const navLinks = [
 
     drawerLinks.forEach((link) => {
       link.addEventListener('click', closeMenu);
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!drawer.hidden && headerEl && !headerEl.contains(event.target as Node)) {
+        closeMenu();
+      }
     });
 
     document.addEventListener('keydown', (event) => {

@@ -1,0 +1,139 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout
+  title="Halaman Tidak Ditemukan (404) — Win Streak Party"
+  description="Halaman yang kamu cari tidak ditemukan di situs Win Streak Party. Kembali ke beranda untuk melihat jadwal mabar, turnamen, dan rekap kegiatan."
+  noindex={true}
+>
+  <Header />
+  <main id="konten-utama">
+    <section class="not-found" aria-labelledby="nf-title">
+      <div class="wrap nf-grid">
+        <div class="nf-code" aria-hidden="true">404</div>
+
+        <div class="nf-body">
+          <h1 id="nf-title" class="nf-title">Salah masuk lobi — halaman tidak ditemukan</h1>
+          <p class="nf-lead">
+            Tautan yang kamu buka mungkin sudah dipindahkan, salah ketik, atau memang belum pernah dibuat. Pilih tujuan di bawah untuk kembali ke jalur utama Win Streak Party.
+          </p>
+
+          <div class="nf-actions">
+            <a class="btn btn-primary" href="/">Kembali ke beranda</a>
+            <a class="btn btn-secondary" href="/#jadwal">Lihat jadwal mabar</a>
+          </div>
+
+          <nav class="nf-links" aria-label="Tautan cepat pemulihan">
+            <a href="/turnamen">Turnamen &amp; Event</a>
+            <a href="/kegiatan">Rekap Kegiatan</a>
+            <a href="/#aturan">Aturan &amp; FAQ</a>
+            <a href="/#gabung">Daftar Member</a>
+          </nav>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .not-found {
+    min-height: calc(100svh - var(--header-h) - 240px);
+    display: flex;
+    align-items: center;
+    padding-block: clamp(3.5rem, 8vw, 6.5rem);
+  }
+
+  .nf-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 4.2fr) minmax(0, 7.8fr);
+    gap: clamp(1.75rem, 5vw, 4.5rem);
+    align-items: center;
+  }
+
+  .nf-code {
+    font-family: var(--font-display);
+    font-size: clamp(4.75rem, 10vw, 6rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
+    color: var(--brand-gold);
+    padding: 1.75rem 2.25rem;
+    border-radius: var(--radius-lg);
+    background-color: var(--color-band-bg);
+    border: 1px solid var(--color-border-dark);
+    width: fit-content;
+  }
+
+  .nf-body {
+    display: grid;
+    gap: 1.25rem;
+    min-width: 0;
+  }
+
+  .nf-title {
+    font-size: var(--text-h1);
+    font-weight: 800;
+    line-height: 1.06;
+    letter-spacing: -0.03em;
+    color: var(--color-heading);
+    max-width: 18ch;
+  }
+
+  .nf-lead {
+    font-size: var(--text-lg);
+    color: var(--color-ink-muted);
+    max-width: 52ch;
+  }
+
+  .nf-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    padding-top: 0.35rem;
+  }
+
+  .nf-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem 1.4rem;
+    padding-top: 1.25rem;
+    margin-top: 0.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .nf-links a {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--color-accent);
+    text-decoration: none;
+    padding-block: 0.35rem;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .nf-links a:hover {
+      text-decoration: underline;
+    }
+  }
+
+  @media (max-width: 820px) {
+    .nf-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 540px) {
+    .nf-actions {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .nf-actions .btn {
+      width: 100%;
+    }
+  }
+</style>

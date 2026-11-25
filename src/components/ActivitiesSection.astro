@@ -1,5 +1,6 @@
 ---
 import { activities } from '../data/community';
+import Picture from './Picture.astro';
 ---
 
 <section class="activities band-dark" id="kegiatan" aria-labelledby="activities-title">
@@ -38,13 +39,11 @@ import { activities } from '../data/community';
           data-activity-panel={item.id}
         >
           <div class="panel-media">
-            <img
+            <Picture
               src={item.image}
               alt={item.imageAlt}
-              width="1600"
-              height="1067"
+              sizes="(max-width: 960px) 100vw, 56vw"
               loading={idx === 0 ? 'eager' : 'lazy'}
-              decoding="async"
             />
           </div>
 
@@ -80,8 +79,10 @@ import { activities } from '../data/community';
 
 <style>
   .activities {
-    background-color: var(--color-indigo);
+    background-color: var(--color-band-bg);
     color: var(--color-ink-on-dark);
+    border-top: 1px solid var(--color-border-dark);
+    border-bottom: 1px solid var(--color-border-dark);
     padding-block: var(--section-py);
   }
 
@@ -140,9 +141,9 @@ import { activities } from '../data/community';
   }
 
   .tab-btn[aria-selected='true'] {
-    background-color: var(--color-gold);
-    border-color: var(--color-gold);
-    color: var(--color-indigo-deep);
+    background-color: var(--brand-gold);
+    border-color: var(--brand-gold);
+    color: var(--brand-indigo-deep);
     font-weight: 700;
   }
 
@@ -160,7 +161,7 @@ import { activities } from '../data/community';
   @keyframes panelSwap {
     from {
       opacity: 0;
-      transform: translateY(8px);
+      transform: translateY(6px);
     }
     to {
       opacity: 1;
@@ -168,23 +169,36 @@ import { activities } from '../data/community';
     }
   }
 
+  @keyframes panelFade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
   .activity-panel.is-switching {
     animation: panelSwap var(--dur-base) var(--ease-out) both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .activity-panel.is-switching {
+      animation: panelFade var(--dur-fast) ease both;
+    }
+
+    .tab-btn:active {
+      transform: none;
+    }
   }
 
   .panel-media {
     overflow: hidden;
     border-radius: var(--radius-md);
-    background-color: var(--color-indigo-deep);
+    background-color: var(--brand-indigo-deep);
     box-shadow: var(--shadow-dark);
     aspect-ratio: 16 / 10;
     min-width: 0;
-  }
-
-  .panel-media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
   }
 
   .panel-content {
@@ -224,7 +238,7 @@ import { activities } from '../data/community';
   .detail-row dt {
     font-size: var(--text-sm);
     font-weight: 600;
-    color: var(--color-gold);
+    color: var(--brand-gold);
   }
 
   .detail-row dd {

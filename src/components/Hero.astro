@@ -1,5 +1,6 @@
 ---
 import { communityInfo } from '../data/community';
+import Picture from './Picture.astro';
 ---
 
 <section class="hero" id="beranda" aria-labelledby="hero-title">
@@ -16,13 +17,13 @@ import { communityInfo } from '../data/community';
 
     <div class="hero-media hero-enter-delay">
       <div class="hero-frame">
-        <img
+        <Picture
           src="/images/activities/hero-mabar.jpg"
           alt="Anggota Win Streak Party bermain game mobile bersama di meja kafe sambil berdiskusi dan tertawa"
-          width="1600"
-          height="1067"
+          sizes="(max-width: 960px) 100vw, 54vw"
+          loading="eager"
           fetchpriority="high"
-          decoding="async"
+          objectPosition="center 35%"
         />
       </div>
     </div>
@@ -57,7 +58,7 @@ import { communityInfo } from '../data/community';
     font-weight: 800;
     line-height: 1.03;
     letter-spacing: -0.032em;
-    color: var(--color-indigo);
+    color: var(--color-heading);
   }
 
   .hero-lead {
@@ -82,7 +83,7 @@ import { communityInfo } from '../data/community';
     position: relative;
     overflow: hidden;
     border-radius: var(--radius-lg);
-    background-color: var(--color-indigo);
+    background-color: var(--brand-indigo);
     box-shadow: var(--shadow-lift);
     aspect-ratio: 3 / 2;
   }
@@ -93,15 +94,8 @@ import { communityInfo } from '../data/community';
     inset-inline: 0;
     bottom: 0;
     height: 6px;
-    background-color: var(--color-gold);
+    background-color: var(--brand-gold);
     pointer-events: none;
-  }
-
-  .hero-frame img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 35%;
   }
 
   @media (max-width: 960px) {

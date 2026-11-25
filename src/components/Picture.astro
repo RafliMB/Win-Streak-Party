@@ -1,0 +1,89 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  sizes?: string;
+  loading?: 'eager' | 'lazy';
+  decoding?: 'async' | 'sync' | 'auto';
+  fetchpriority?: 'high' | 'low' | 'auto';
+  class?: string;
+  objectPosition?: string;
+  width?: number;
+  height?: number;
+}
+
+const IMAGE_META: Record<string, { width: number; height: number; hasWebp: boolean }> = {
+  '/images/activities/activity-coaching.jpg': { width: 1264, height: 848, hasWebp: true },
+  '/images/activities/activity-gathering.jpg': { width: 1200, height: 896, hasWebp: true },
+  '/images/activities/activity-nobar.jpg': { width: 1376, height: 768, hasWebp: true },
+  '/images/activities/activity-scrim.jpg': { width: 1200, height: 896, hasWebp: true },
+  '/images/activities/activity-tournament.jpg': { width: 1200, height: 896, hasWebp: true },
+  '/images/activities/hero-mabar.jpg': { width: 1264, height: 848, hasWebp: true },
+};
+
+const {
+  src,
+  alt,
+  sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 680px',
+  loading = 'lazy',
+  decoding = 'async',
+  fetchpriority,
+  class: className = '',
+  objectPosition,
+  width,
+  height,
+} = Astro.props;
+
+const meta = IMAGE_META[src];
+const finalWidth = width ?? meta?.width;
+const finalHeight = height ?? meta?.height;
+const hasWebp = Boolean(meta?.hasWebp && src.endsWith('.jpg'));
+const basePath = hasWebp ? src.slice(0, -4) : '';
+const webpSrcset = hasWebp && finalWidth
+  ? `${basePath}-640w.webp 640w, ${basePath}.webp ${finalWidth}w`
+  : undefined;
+---
+
+{hasWebp && webpSrcset ? (
+  <picture class="opt-picture">
+    <source type="image/webp" srcset={webpSrcset} sizes={sizes} />
+    <img
+      src={src}
+      alt={alt}
+      width={finalWidth}
+      height={finalHeight}
+      loading={loading}
+      decoding={decoding}
+      fetchpriority={fetchpriority}
+      class={`opt-img ${className}`.trim()}
+      style={objectPosition ? `object-position: ${objectPosition};` : undefined}
+    />
+  </picture>
+) : (
+  <img
+    src={src}
+    alt={alt}
+    width={finalWidth}
+    height={finalHeight}
+    loading={loading}
+    decoding={decoding}
+    fetchpriority={fetchpriority}
+    class={`opt-img ${className}`.trim()}
+    style={objectPosition ? `object-position: ${objectPosition};` : undefined}
+  />
+)}
+
+<style>
+  .opt-picture {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .opt-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+</style>

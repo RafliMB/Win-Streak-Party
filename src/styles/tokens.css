@@ -2,26 +2,54 @@
 /* Palet utama ditarik langsung dari logo resmi: Indigo #1B1464, Gold #FBB03B, Chalk #F3F2EE */
 
 :root {
-  /* Warna permukaan & latar */
+  color-scheme: light;
+
+  /* Primitif merek tetap (tidak dibalik di dark mode — dipakai band gelap & kartu member) */
+  --brand-indigo: #1b1464;
+  --brand-indigo-deep: #110c45;
+  --brand-indigo-soft: #2a227d;
+  --brand-gold: #fbb03b;
+  --brand-gold-hover: #e59b24;
+  --brand-gold-pale: #fdf2dc;
+  --brand-chalk: #f7f6f2;
+  --brand-surface-white: #ffffff;
+
+  /* Warna permukaan & latar (Light default) */
   --color-canvas: #f3f2ee;
   --color-surface: #ffffff;
   --color-surface-muted: #e8e6df;
   --color-surface-tint: #eae8f4;
 
-  /* Warna merek dari logo */
-  --color-indigo: #1b1464;
-  --color-indigo-deep: #110c45;
-  --color-indigo-soft: #2a227d;
-  --color-gold: #fbb03b;
-  --color-gold-hover: #e59b24;
-  --color-gold-pale: #fdf2dc;
+  /* Alias merek untuk kompatibilitas */
+  --color-indigo: var(--brand-indigo);
+  --color-indigo-deep: var(--brand-indigo-deep);
+  --color-indigo-soft: var(--brand-indigo-soft);
+  --color-gold: var(--brand-gold);
+  --color-gold-hover: var(--brand-gold-hover);
+  --color-gold-pale: var(--brand-gold-pale);
 
-  /* Teks & kontras */
+  /* Peran semantik teks, heading, dan aksen */
+  --color-heading: #1b1464;
+  --color-heading-hover: #2a227d;
+  --color-accent: #1b1464;
   --color-ink: #151042;
   --color-ink-muted: #484469;
-  --color-ink-subtle: #625e82;
+  --color-ink-subtle: #5c587c;
   --color-ink-on-dark: #f7f6f2;
   --color-ink-on-dark-muted: #c6c3e2;
+
+  /* Peran semantik tombol & pita gelap */
+  --color-btn-primary-bg: #1b1464;
+  --color-btn-primary-hover: #110c45;
+  --color-btn-primary-text: #f7f6f2;
+  --color-band-bg: #1b1464;
+  --color-band-deep: #110c45;
+
+  /* Peran semantik label/tag mode jadwal */
+  --color-tag-online-bg: #eae8f4;
+  --color-tag-online-text: #1b1464;
+  --color-tag-offline-bg: #fdf2dc;
+  --color-tag-offline-text: #110c45;
 
   /* Garis & batas */
   --color-border: rgba(21, 16, 66, 0.13);
@@ -29,11 +57,17 @@
   --color-border-dark: rgba(247, 246, 242, 0.18);
   --color-border-dark-strong: rgba(247, 246, 242, 0.34);
 
-  /* Header & overlay */
-  --color-header-bg: rgba(243, 242, 238, 0.92);
+  /* Header, fokus & overlay */
+  --color-header-bg: rgba(243, 242, 238, 0.9);
+  --color-header-shadow: 0 10px 26px -18px rgba(21, 16, 66, 0.2);
+  --color-focus: #1b1464;
   --color-scrim: rgba(17, 12, 69, 0.84);
   --color-surface-dark-subtle: rgba(247, 246, 242, 0.08);
   --color-surface-dark-hover: rgba(247, 246, 242, 0.14);
+
+  /* Wadah logo di header (transparan di terang, putih bersih di gelap untuk menjaga warna asli logo) */
+  --logo-badge-bg: transparent;
+  --logo-badge-pad: 0;
 
   /* Status formulir */
   --color-error: #b91c1c;
@@ -66,7 +100,7 @@
   /* Radius & elevasi */
   --radius-sm: 8px;
   --radius-md: 14px;
-  --radius-lg: 20px;
+  --radius-lg: 16px;
   --radius-pill: 999px;
   --shadow-soft: 0 12px 30px -14px rgba(21, 16, 66, 0.16);
   --shadow-lift: 0 18px 40px -14px rgba(21, 16, 66, 0.24);
@@ -77,5 +111,54 @@
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --dur-fast: 150ms;
   --dur-base: 220ms;
-  --dur-slow: 460ms;
+  --dur-slow: 420ms;
+}
+
+/* Mode Gelap — Obsidian Indigo yang diturunkan dari #1B1464 dengan aksen emas #FBB03B */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --color-canvas: #0b0824;
+  --color-surface: #130f36;
+  --color-surface-muted: #1b1647;
+  --color-surface-tint: #231d5c;
+
+  --color-heading: #f5f4f8;
+  --color-heading-hover: #fbb03b;
+  --color-accent: #fbb03b;
+  --color-ink: #efedf7;
+  --color-ink-muted: #c2bee0;
+  --color-ink-subtle: #a39ec9;
+
+  --color-btn-primary-bg: #fbb03b;
+  --color-btn-primary-hover: #e59b24;
+  --color-btn-primary-text: #110c45;
+  --color-band-bg: #16104a;
+  --color-band-deep: #07051a;
+
+  --color-tag-online-bg: rgba(154, 146, 232, 0.18);
+  --color-tag-online-text: #dcd8ff;
+  --color-tag-offline-bg: rgba(251, 176, 59, 0.16);
+  --color-tag-offline-text: #ffd07a;
+
+  --color-border: rgba(235, 232, 255, 0.12);
+  --color-border-strong: rgba(235, 232, 255, 0.25);
+
+  --color-header-bg: rgba(11, 8, 36, 0.88);
+  --color-header-shadow: 0 12px 28px -16px rgba(0, 0, 0, 0.65);
+  --color-focus: #fbb03b;
+  --color-scrim: rgba(4, 3, 18, 0.88);
+
+  --logo-badge-bg: #ffffff;
+  --logo-badge-pad: 0.34rem 0.46rem;
+
+  --color-error: #fca5a5;
+  --color-error-bg: rgba(220, 38, 38, 0.16);
+  --color-error-border: rgba(252, 165, 165, 0.5);
+  --color-success: #86efac;
+  --color-success-bg: rgba(22, 163, 74, 0.16);
+  --color-success-border: rgba(134, 239, 172, 0.45);
+
+  --shadow-soft: 0 14px 32px -14px rgba(0, 0, 0, 0.52);
+  --shadow-lift: 0 20px 44px -16px rgba(0, 0, 0, 0.68);
 }

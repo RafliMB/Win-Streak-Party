@@ -9,9 +9,48 @@ import GallerySection from '../components/GallerySection.astro';
 import RulesFaqSection from '../components/RulesFaqSection.astro';
 import JoinSection from '../components/JoinSection.astro';
 import Footer from '../components/Footer.astro';
+import { communityInfo, communityRulesFaq } from '../data/community';
+
+const siteOrigin = (Astro.site ?? new URL('https://winstreakparty.my.id')).toString().replace(/\/$/, '');
+
+const homeSchemas = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: communityInfo.name,
+    alternateName: communityInfo.shortName,
+    url: siteOrigin,
+    logo: `${siteOrigin}/images/brand/wsp-logo-mark.png`,
+    description: communityInfo.tagline,
+    sameAs: [
+      communityInfo.channels.discordUrl,
+      communityInfo.channels.instagramUrl,
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: communityInfo.name,
+    url: siteOrigin,
+    inLanguage: 'id-ID',
+    description: communityInfo.tagline,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: communityRulesFaq.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  },
+];
 ---
 
-<BaseLayout>
+<BaseLayout jsonLd={homeSchemas}>
   <Header />
   <main id="konten-utama">
     <Hero />
