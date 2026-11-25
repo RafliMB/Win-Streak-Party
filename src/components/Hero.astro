@@ -7,7 +7,6 @@ import Picture from './Picture.astro';
   <div class="wrap hero-grid">
     <div class="hero-copy hero-enter">
       <h1 id="hero-title" class="hero-title">{communityInfo.heroHeading}</h1>
-      <p class="hero-slogan">{communityInfo.slogan}</p>
       <p class="hero-lead">{communityInfo.heroLead}</p>
 
       <div class="hero-actions">
@@ -60,15 +59,6 @@ import Picture from './Picture.astro';
     line-height: 1.03;
     letter-spacing: -0.032em;
     color: var(--color-heading);
-  }
-
-  .hero-slogan {
-    font-family: var(--font-display);
-    font-size: var(--text-h3);
-    font-weight: 700;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-    color: var(--color-accent);
   }
 
   .hero-lead {
