@@ -1,3 +1,19 @@
+export interface CommunityLeader {
+  id: string;
+  name: string;
+  nickname: string;
+  title: string;
+  division: string;
+  level: 'lead' | 'core';
+  role: string;
+  tier: string;
+  bio: string;
+  motto?: string;
+  /** Opsional: isi jalur gambar (mis. '/images/leaders/nama.jpg') untuk mengganti avatar inisial */
+  avatar?: string;
+  avatarAlt?: string;
+}
+
 export interface CommunityPillar {
   title: string;
   body: string;
@@ -94,6 +110,67 @@ export const pillars: CommunityPillar[] = [
   {
     title: 'Akrab dari voice hingga nobar MPL',
     body: 'Selain berkumpul di kanal voice Discord pada malam pekan, akhir pekan kami isi dengan nonton bareng pertandingan MPL, M-Series, dan kopdar santai.',
+  },
+];
+
+// Data contoh jajaran petinggi Win Streak Party — silakan ganti dengan nama, IGN, jabatan, dan foto resmi
+export const communityLeaders: CommunityLeader[] = [
+  {
+    id: 'founder',
+    name: 'Alfiano',
+    nickname: 'Nadhin',
+    title: 'Founder & Ketua Komunitas',
+    division: 'Inti Komunitas',
+    level: 'lead',
+    role: 'Roamer',
+    tier: 'Mythical Immortal',
+    bio: 'Penggagas berdirinya Win Streak Party. Mengawal arah komunitas, menjaga budaya main tanpa toxic, serta memimpin koordinasi lintas divisi.',
+    motto: 'Permabaran yang Mantap!',
+  },
+  {
+    id: 'vice-scrim',
+    name: 'Dimas Aditya',
+    nickname: 'WSP · Dims',
+    title: 'Wakil Ketua & Head of Scrim',
+    division: 'Divisi Kompetitif',
+    level: 'lead',
+    role: 'Jungler',
+    tier: 'Mythical Glory',
+    bio: 'Mengatur jadwal internal scrim Custom Draft Pick, memandu sesi bedah replay, dan membina skuad perwakilan WSP di turnamen.',
+    motto: 'Objektif disiplin, rotasi kompak, menang bareng tanpa panik.',
+  },
+  {
+    id: 'tournament-lead',
+    name: 'Bagas Saputra',
+    nickname: 'WSP · Bgs',
+    title: 'Koordinator Turnamen & Event',
+    division: 'Operasional Event',
+    level: 'core',
+    role: 'Mid Laner',
+    tier: 'Mythical Honor',
+    bio: 'Menyusun bagan WSP Fun Cup 5v5, mengawal jalannya custom room, serta menyiapkan agenda nobar MPL dan kopdar komunitas.',
+  },
+  {
+    id: 'mod-lead',
+    name: 'Nadia Kusuma',
+    nickname: 'WSP · Nad',
+    title: 'Kepala Moderasi & Lobi',
+    division: 'Komunitas & Voice',
+    level: 'core',
+    role: 'EXP Laner',
+    tier: 'Mythical Glory',
+    bio: 'Menyambut anggota baru, memastikan kanal voice Discord tetap hangat, dan mengatur pembagian party 5-stack yang seimbang.',
+  },
+  {
+    id: 'media-lead',
+    name: 'Fajar Ramadhan',
+    nickname: 'WSP · Fjr',
+    title: 'Koordinator Media & Rekap',
+    division: 'Kreatif & Dokumentasi',
+    level: 'core',
+    role: 'Gold Laner',
+    tier: 'Mythic',
+    bio: 'Mengelola dokumentasi mabar, publikasi rekap kegiatan, pengumuman jadwal rutin, serta arsip Hall of Fame skuad juara.',
   },
 ];
 
