@@ -249,6 +249,100 @@ section[id] {
   }
 }
 
+/* Transisi tema gelombang air (View Transitions API + lapisan riak) */
+:root.is-theme-transitioning,
+:root.is-theme-transitioning *,
+:root.is-theme-transitioning *::before,
+:root.is-theme-transitioning *::after {
+  transition-duration: 0.001ms !important;
+}
+
+::view-transition-group(root) {
+  animation: none;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 2;
+}
+
+::view-transition-group(theme-wave-echo),
+::view-transition-group(theme-wave-crest) {
+  animation: none;
+  overflow: visible;
+  pointer-events: none;
+}
+
+::view-transition-group(theme-wave-echo) {
+  z-index: 3;
+}
+
+::view-transition-group(theme-wave-crest) {
+  z-index: 4;
+}
+
+::view-transition-image-pair(theme-wave-echo),
+::view-transition-image-pair(theme-wave-crest) {
+  overflow: visible;
+  isolation: auto;
+}
+
+::view-transition-new(theme-wave-echo),
+::view-transition-new(theme-wave-crest) {
+  animation: none;
+  mix-blend-mode: normal;
+  opacity: 0;
+  transform-origin: center center;
+}
+
+.theme-wave-layer {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: visible;
+}
+
+.theme-wave-layer svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Fallback gelombang air untuk peramban tanpa View Transitions API */
+.theme-wave-fallback {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+}
+
+.theme-wave-fallback--dark {
+  background: radial-gradient(
+    circle at center,
+    rgba(27, 20, 100, 0.96) 0%,
+    rgba(11, 8, 36, 0.98) 72%,
+    rgba(56, 189, 248, 0.35) 100%
+  );
+}
+
+.theme-wave-fallback--light {
+  background: radial-gradient(
+    circle at center,
+    rgba(243, 242, 238, 0.96) 0%,
+    rgba(255, 255, 255, 0.96) 76%,
+    rgba(251, 176, 59, 0.42) 100%
+  );
+}
+
 /* Reduced motion: hapus perpindahan spasial, tetap pertahankan transisi warna & opacity yang membantu pemahaman */
 @media (prefers-reduced-motion: reduce) {
   html {
