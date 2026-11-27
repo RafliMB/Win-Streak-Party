@@ -1,11 +1,13 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
-import vercel from '@astrojs/vercel';
+import node from '@astrojs/node';
 
 export default defineConfig({
   site: 'https://winstreakparty.my.id',
   output: 'static',
-  adapter: vercel(),
+  adapter: node({
+    mode: 'standalone',
+  }),
   compressHTML: true,
   integrations: [sitemap()],
 });
